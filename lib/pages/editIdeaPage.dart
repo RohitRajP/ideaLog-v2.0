@@ -158,7 +158,9 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
   }
 
   Future<String> _deleteIdeaConfirm() async {
-    _isUpdating = true;
+    setState(() {
+      _isUpdating = true;
+    });
     _response = await http.post(
         Uri.encodeFull(
             "http://rrjprojects.000webhostapp.com/api/ideaDelete.php"),
