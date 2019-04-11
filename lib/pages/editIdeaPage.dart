@@ -28,27 +28,35 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
   }
 
   Future<String> _updateIdea() async {
-    _isUpdating = true;
-    _response = await http.post(
-        Uri.encodeFull(
-            "http://rrjprojects.000webhostapp.com/api/ideasUpdate.php"),
-        body: {
-          "sno": globals.editIdeaSno,
-          "ideaName": _ideaNameControl.text.toString(),
-          "ideaDesc": _ideaDescControl.text.toString(),
-          "ideaPriority": _priorityValue.round().toString()
+    setState(() {
+      _isUpdating = true;
+    });
+    String _ideaName = _ideaNameControl.text.toString();
+    String _ideaDesc = _ideaDescControl.text.toString();
+    _ideaName = _ideaName.replaceAll('\'', '\'\'');
+    _ideaDesc = _ideaDesc.replaceAll('\'', '\'\'');
+    try {
+      _response = await http.post(
+          Uri.encodeFull(
+              "http://rrjprojects.000webhostapp.com/api/ideasUpdate.php"),
+          body: {
+            "sno": globals.editIdeaSno,
+            "ideaName": _ideaName.trim(),
+            "ideaDesc": _ideaDesc.trim(),
+            "ideaPriority": _priorityValue.round().toString()
+          });
+      _response = json.decode(_response.body);
+      if (_response[0]['status'] == "1") {
+        setState(() {
+          _isUpdating = false;
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Idea detail updated'),
+            duration: Duration(seconds: 3),
+          ));
         });
-    _response = json.decode(_response.body);
-    if (_response[0]['status'] == "1") {
-      setState(() {
-        _isUpdating = false;
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: Colors.green,
-          content: Text('Idea Detail Updated'),
-          duration: Duration(seconds: 3),
-        ));
-      });
-    } else {
+      }
+    } catch (FormatException) {
       setState(() {
         _isUpdating = false;
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -63,6 +71,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
   Widget _getTitle() {
     return Container(
         child: TextFormField(
+      maxLength: 20,
       controller: _ideaNameControl,
       decoration: InputDecoration(
           labelText: "Idea Title",
@@ -78,6 +87,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
         child: TextFormField(
       controller: _ideaDescControl,
       maxLines: null,
+      maxLength: 1500,
       decoration: InputDecoration(
           labelText: "Idea Description",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
@@ -129,6 +139,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
                 color: Colors.red,
                 child: Text("Confirm"),
                 onPressed: () {
+                  Navigator.pop(context);
                   _deleteIdeaConfirm();
                 },
               )
@@ -193,25 +204,29 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
         child: Scaffold(
             key: _scaffoldKey,
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                if (_ideaNameControl.text.length != 0 &&
-                    _ideaDescControl.text.length != 0) {
-                  _updateIdea();
-                } else {
-                  _scaffoldKey.currentState.showSnackBar(SnackBar(
-                    backgroundColor: Colors.orange,
-                    content: Text('Please check for empty fields'),
-                    duration: Duration(seconds: 3),
-                  ));
-                }
-              },
+              disabledElevation: 0.0,
+              onPressed: (_isUpdating == false)
+                  ? () {
+                      if (_ideaNameControl.text.length != 0 &&
+                          _ideaDescControl.text.length != 0) {
+                        _updateIdea();
+                      } else {
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          backgroundColor: Colors.orange,
+                          content: Text('Please check for empty fields'),
+                          duration: Duration(seconds: 3),
+                        ));
+                      }
+                    }
+                  : null,
               child: (_isUpdating == false)
                   ? Icon(Icons.check)
                   : CircularProgressIndicator(
                       valueColor:
                           new AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
-              backgroundColor: Colors.green,
+              backgroundColor:
+                  (_isUpdating == false) ? Colors.green : Colors.grey,
             ),
             appBar: AppBar(
               title: Text(globals.editIdeaName),

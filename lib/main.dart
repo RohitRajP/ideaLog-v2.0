@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   void _autoLoginCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String temp = prefs.getString("userId");
-    print(temp);
+    // print(temp);
     if (temp != null) {
       globals.userId = temp;
       globals.userName = prefs.getString("userName");

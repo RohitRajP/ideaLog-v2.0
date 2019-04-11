@@ -59,6 +59,7 @@ class _ExplorePageState extends State<ExplorePageW> {
 
   Widget _expansionTileBuilder(BuildContext context, int index) {
     return ExpansionTile(
+      leading: Icon(FontAwesomeIcons.lightbulb),
       title: Text(
         _ideasLst[index]['ideaName'],
       ),
@@ -141,10 +142,9 @@ class _ExplorePageState extends State<ExplorePageW> {
     return Container(
         margin: EdgeInsets.all(20.0),
         child: Center(
-          child: Text(
-              "Hmm... Is there a possibility that you have not punched in any ideas yet?",
-              textAlign: TextAlign.center),
-        ));
+            child: Center(
+          child: Text(globals.welMessage, textAlign: TextAlign.center),
+        )));
   }
 
   @override

@@ -5,4 +5,5 @@ String userName,
     editIdeaName,
     editIdeaDesc,
     editIdeaPriority,
-    editIdeaSno;
+    editIdeaSno,
+    welMessage;
