@@ -22,6 +22,8 @@ class _DashPageState extends State<DashPage> {
     prefs.clear();
     globals.userId = null;
     globals.userName = null;
+    globals.accUserName = null;
+    globals.userPassword = null;
   }
 
   void _showConfirmDialog() {

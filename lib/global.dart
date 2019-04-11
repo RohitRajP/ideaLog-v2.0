@@ -6,4 +6,6 @@ String userName,
     editIdeaDesc,
     editIdeaPriority,
     editIdeaSno,
-    welMessage;
+    welMessage,
+    userPassword,
+    accUserName;

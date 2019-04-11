@@ -20,23 +20,6 @@ class _MyAppState extends State<MyApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _autoLoginCheck();
-  }
-
-  void _autoLoginCheck() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String temp = prefs.getString("userId");
-    // print(temp);
-    if (temp != null) {
-      globals.userId = temp;
-      globals.userName = prefs.getString("userName");
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(

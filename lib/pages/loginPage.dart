@@ -22,7 +22,28 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false, _continueLogin = false;
   var _response;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _autoLoginCheck();
+  }
+
+  void _autoLoginCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String temp = prefs.getString("accUserName");
+    // print(temp);
+    if (temp != null) {
+      setState(() {
+        _continueLogin = true;
+        _username.text = prefs.getString("accUserName");
+        _password.text = prefs.getString("userPassword");
+      });
+    }
+  }
+
   Future<String> _auth() async {
+    //print(_username.text);
     _response = await http.post(
         Uri.encodeFull(
             "http://rrjprojects.000webhostapp.com/api/authentication.php"),
@@ -35,9 +56,11 @@ class _LoginPageState extends State<LoginPage> {
       globals.userName = _response[0]['name'];
       globals.userId = _response[0]['userId'];
       globals.welMessage = _response[0]['welMessage'];
+      globals.accUserName = _username.text.trim();
+      globals.userPassword = _password.text.trim();
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("userId", globals.userId);
-      prefs.setString("userName", globals.userName);
+      prefs.setString("accUserName", globals.accUserName);
+      prefs.setString("userPassword", globals.userPassword);
       Navigator.of(context).pushNamedAndRemoveUntil(
           '/explorePage', (Route<dynamic> route) => false);
     } else if (_response[0]['authstatus'] == '2') {
@@ -119,6 +142,26 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _autoLoginBtn() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: RaisedButton(
+            elevation: 5.0,
+            color: Colors.white,
+            colorBrightness: Brightness.light,
+            onPressed: () {
+              _auth();
+            },
+            child: Text("Proceed to Auto-Login"),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _signUpBtn() {
     return Row(
       children: <Widget>[
@@ -169,41 +212,23 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (globals.userId != null) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          '/explorePage', (Route<dynamic> route) => false);
-    } else {
-      setState(() {
-        _continueLogin = true;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return (_continueLogin == true)
-        ? Container(
-            constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height,
-                minWidth: MediaQuery.of(context).size.width),
-            alignment: Alignment.center,
-            child: Center(
-              child: ListView(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(50.0),
-                children: <Widget>[
-                  Container(
-                    child: _loginBox(),
-                  ),
-                ],
+    return Container(
+        constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height,
+            minWidth: MediaQuery.of(context).size.width),
+        alignment: Alignment.center,
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(50.0),
+            children: <Widget>[
+              Container(
+                child: (_continueLogin != true) ? _loginBox() : _autoLoginBtn(),
               ),
-            ))
-        : Center(
-            child: CircularProgressIndicator(),
-          );
+            ],
+          ),
+        ));
   }
 }
