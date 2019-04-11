@@ -8,4 +8,6 @@ String userName,
     editIdeaSno,
     welMessage,
     userPassword,
-    accUserName;
+    accUserName,
+    userEmail;
+Color primaryColor = Colors.indigo, accentColor = Colors.indigoAccent;

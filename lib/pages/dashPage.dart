@@ -34,7 +34,7 @@ class _DashPageState extends State<DashPage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
             title: Text("Are you sure?"),
-            content: Text("This action will log you out of IdeaLog"),
+            content: Text("This action will log you out of IdeaLog 😧"),
             actions: <Widget>[
               FlatButton(
                 shape: RoundedRectangleBorder(
@@ -68,7 +68,7 @@ class _DashPageState extends State<DashPage> {
           context: context,
           builder: (context) => new AlertDialog(
                 title: new Text('Are you sure?'),
-                content: new Text('This action will exit IdeaLog'),
+                content: new Text('This action will exit IdeaLog 😭'),
                 actions: <Widget>[
                   new FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -93,20 +93,47 @@ class _DashPageState extends State<DashPage> {
             child: WillPopScope(
                 onWillPop: _onWillPop,
                 child: Scaffold(
+                  drawer: Drawer(
+                    child: ListView(
+                      children: <Widget>[
+                        UserAccountsDrawerHeader(
+                          accountEmail: Text(globals.userEmail),
+                          accountName: Text(globals.userName,
+                              style: TextStyle(fontSize: 18.0)),
+                          currentAccountPicture: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Text(globals.userName[0],
+                                style: TextStyle(fontSize: 40.0)),
+                          ),
+                        ),
+                        ListTile(
+                          title: Text("Profile Settings"),
+                          leading: Icon(FontAwesomeIcons.userCog),
+                          subtitle: Text("Change details about your profile"),
+                        ),
+                        ListTile(
+                          title: Text("App Settings"),
+                          leading: Icon(FontAwesomeIcons.cogs),
+                          subtitle:
+                              Text("Change application specific settings"),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/appSettingsPage');
+                          },
+                        ),
+                        ListTile(
+                          title: Text("Logout"),
+                          leading: Icon(FontAwesomeIcons.signOutAlt),
+                          subtitle: Text("Sign out of account"),
+                          onTap: () {
+                            _showConfirmDialog();
+                          },
+                        )
+                      ],
+                    ),
+                  ),
                   key: _scaffoldKey,
                   appBar: AppBar(
-                    title: Text("Hi there, " + globals.userName),
-                    actions: <Widget>[
-                      FlatButton.icon(
-                        icon: Icon(FontAwesomeIcons.signOutAlt,
-                            color: Colors.white),
-                        textColor: Colors.white,
-                        label: Text("Logout"),
-                        onPressed: () {
-                          _showConfirmDialog();
-                        },
-                      )
-                    ],
+                    title: Text("Dashboard"),
                     bottom: TabBar(
                       tabs: <Widget>[
                         Tab(

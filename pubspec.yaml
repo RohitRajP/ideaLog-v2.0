@@ -33,6 +33,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons:
+  flutter_material_color_picker:
 
 
 # For information on the generic Dart part of this file, see the

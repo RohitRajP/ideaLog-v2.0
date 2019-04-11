@@ -8,7 +8,8 @@ import '../global.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  LoginPage(this._scaffoldKey);
+  Function reloadMain;
+  LoginPage(this._scaffoldKey, this.reloadMain);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -32,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   void _autoLoginCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String temp = prefs.getString("accUserName");
+    int _primaryC = prefs.getInt("primaryColor");
     // print(temp);
     if (temp != null) {
       setState(() {
@@ -39,6 +41,27 @@ class _LoginPageState extends State<LoginPage> {
         _username.text = prefs.getString("accUserName");
         _password.text = prefs.getString("userPassword");
       });
+    }
+    if (_primaryC != null) {
+      print(_primaryC);
+      switch (_primaryC) {
+        case 1:
+          globals.primaryColor = Colors.deepOrange;
+          break;
+        case 2:
+          globals.primaryColor = Colors.green;
+          break;
+        case 3:
+          globals.primaryColor = Colors.teal;
+          break;
+        case 4:
+          globals.primaryColor = Colors.purple;
+          break;
+        case 5:
+          globals.primaryColor = Colors.indigo;
+      }
+
+      widget.reloadMain();
     }
   }
 
@@ -56,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
       globals.userName = _response[0]['name'];
       globals.userId = _response[0]['userId'];
       globals.welMessage = _response[0]['welMessage'];
+      globals.userEmail = _response[0]['emailId'];
       globals.accUserName = _username.text.trim();
       globals.userPassword = _password.text.trim();
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -66,14 +90,14 @@ class _LoginPageState extends State<LoginPage> {
     } else if (_response[0]['authstatus'] == '2') {
       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.red,
-        content: Text('Please check your username'),
+        content: Text('Please check your username 😮'),
         duration: Duration(seconds: 3),
       ));
       _resetPage(0);
     } else if (_response[0]['authstatus'] == '1') {
       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Please check your password'),
+        content: Text('Please check your password 🤨'),
         duration: Duration(seconds: 3),
       ));
       _resetPage(1);
@@ -128,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
               });
             },
             child: (_isLoading == false)
-                ? Text("Proceed")
+                ? Text("Proceed 😉")
                 : SizedBox(
                     height: 20.0,
                     width: 20.0,
@@ -153,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               _auth();
             },
-            child: Text("Proceed to Auto-Login"),
+            child: Text("Proceed to Auto-Login 😎"),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
           ),
@@ -170,8 +194,10 @@ class _LoginPageState extends State<LoginPage> {
             elevation: 5.0,
             color: Colors.white,
             colorBrightness: Brightness.light,
-            onPressed: () {},
-            child: Text("Sign Up"),
+            onPressed: () {
+              Navigator.pushNamed(context, '/signUpPage');
+            },
+            child: Text("Sign Up 😃"),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
           ),
@@ -227,6 +253,9 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 child: (_continueLogin != true) ? _loginBox() : _autoLoginBtn(),
               ),
+              Container(
+                child: _signUpBtn(),
+              )
             ],
           ),
         ));

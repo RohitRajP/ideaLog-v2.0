@@ -51,7 +51,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
           _isUpdating = false;
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: Colors.green,
-            content: Text('Idea detail updated'),
+            content: Text('Idea detail updated 😃'),
             duration: Duration(seconds: 3),
           ));
         });
@@ -61,7 +61,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
         _isUpdating = false;
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.red,
-          content: Text('An error occurred during updating'),
+          content: Text('An error occurred during updating 😯'),
           duration: Duration(seconds: 3),
         ));
       });
@@ -119,8 +119,8 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
             title: Text("Are you sure?"),
-            content:
-                Text("This action will remove the idea from the explore list"),
+            content: Text(
+                "This action will remove the idea from the explore list 🤯                                                                                                                                                                                                                                                                                                                                         "),
             actions: <Widget>[
               FlatButton(
                 shape: RoundedRectangleBorder(
@@ -190,7 +190,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
         _isUpdating = false;
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.red,
-          content: Text('An error occurred during deleting'),
+          content: Text('An error occurred during deleting 😥'),
           duration: Duration(seconds: 3),
         ));
       });
@@ -213,7 +213,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
                       } else {
                         _scaffoldKey.currentState.showSnackBar(SnackBar(
                           backgroundColor: Colors.orange,
-                          content: Text('Please check for empty fields'),
+                          content: Text('Please check for empty fields 🧐'),
                           duration: Duration(seconds: 3),
                         ));
                       }

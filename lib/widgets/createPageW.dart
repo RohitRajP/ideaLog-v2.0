@@ -137,7 +137,7 @@ class _CreatePageWState extends State<CreatePageW> {
                     } else {
                       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
                         backgroundColor: Colors.orange,
-                        content: Text('Please check for empty fields'),
+                        content: Text('Please check for empty fields 🧐'),
                         duration: Duration(seconds: 3),
                       ));
                     }
