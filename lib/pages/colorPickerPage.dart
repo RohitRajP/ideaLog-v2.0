@@ -22,8 +22,16 @@ void _setColorPersistant(Color color) async {
     prefs.setInt("primaryColor", 2);
   } else if (color == Colors.teal) {
     prefs.setInt("primaryColor", 3);
-  } else if (color == Colors.purple) {
+  } else if (color == Colors.teal) {
     prefs.setInt("primaryColor", 4);
+  } else if (color == Colors.indigo) {
+    prefs.setInt("primaryColor", 5);
+  } else if (color == Colors.blueGrey) {
+    prefs.setInt("primaryColor", 6);
+  } else if (color == Colors.brown) {
+    prefs.setInt("primaryColor", 7);
+  } else if (color == Colors.blue) {
+    prefs.setInt("primaryColor", 8);
   }
 }
 
@@ -63,6 +71,9 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
                 Colors.teal,
                 Colors.purple,
                 Colors.indigo,
+                Colors.blueGrey,
+                Colors.brown,
+                Colors.blue
               ],
             )
           ],

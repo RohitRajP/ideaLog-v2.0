@@ -75,7 +75,10 @@ class _DashPageState extends State<DashPage> {
                     child: new Text('No'),
                   ),
                   new FlatButton(
-                    onPressed: () => Navigator.of(context).pop(true),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop(true);
+                    },
                     child: new Text('Yes'),
                   ),
                 ],
@@ -97,7 +100,7 @@ class _DashPageState extends State<DashPage> {
                     child: ListView(
                       children: <Widget>[
                         UserAccountsDrawerHeader(
-                          accountEmail: Text(globals.userEmail),
+                          accountEmail: Text("Innovator id: " + globals.userId),
                           accountName: Text(globals.userName,
                               style: TextStyle(fontSize: 18.0)),
                           currentAccountPicture: CircleAvatar(
@@ -108,12 +111,21 @@ class _DashPageState extends State<DashPage> {
                         ),
                         ListTile(
                           title: Text("Profile Settings"),
-                          leading: Icon(FontAwesomeIcons.userCog),
+                          leading: Icon(
+                            FontAwesomeIcons.userCog,
+                            color: globals.primaryColor,
+                          ),
                           subtitle: Text("Change details about your profile"),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/profilePage');
+                          },
                         ),
                         ListTile(
                           title: Text("App Settings"),
-                          leading: Icon(FontAwesomeIcons.cogs),
+                          leading: Icon(
+                            FontAwesomeIcons.cogs,
+                            color: globals.primaryColor,
+                          ),
                           subtitle:
                               Text("Change application specific settings"),
                           onTap: () {
@@ -121,9 +133,16 @@ class _DashPageState extends State<DashPage> {
                           },
                         ),
                         ListTile(
-                          title: Text("Logout"),
-                          leading: Icon(FontAwesomeIcons.signOutAlt),
-                          subtitle: Text("Sign out of account"),
+                          title: Text(
+                            "Logout",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          leading: Icon(
+                            FontAwesomeIcons.signOutAlt,
+                            color: Colors.red,
+                          ),
+                          subtitle: Text("Sign out of account",
+                              style: TextStyle(color: Colors.redAccent)),
                           onTap: () {
                             _showConfirmDialog();
                           },
@@ -148,7 +167,10 @@ class _DashPageState extends State<DashPage> {
                     ),
                   ),
                   body: TabBarView(
-                    children: [ExplorePageW(), CreatePageW(_scaffoldKey)],
+                    children: [
+                      ExplorePageW(_scaffoldKey),
+                      CreatePageW(_scaffoldKey)
+                    ],
                   ),
                 ))));
   }

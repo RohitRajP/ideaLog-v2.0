@@ -35,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
     String temp = prefs.getString("accUserName");
     int _primaryC = prefs.getInt("primaryColor");
     // print(temp);
+    //print(_primaryC);
     if (temp != null) {
       setState(() {
         _continueLogin = true;
@@ -43,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
     if (_primaryC != null) {
-      print(_primaryC);
+      //print(_primaryC);
       switch (_primaryC) {
         case 1:
           globals.primaryColor = Colors.deepOrange;
@@ -59,6 +60,16 @@ class _LoginPageState extends State<LoginPage> {
           break;
         case 5:
           globals.primaryColor = Colors.indigo;
+          break;
+        case 6:
+          globals.primaryColor = Colors.blueGrey;
+          break;
+        case 7:
+          globals.primaryColor = Colors.brown;
+          break;
+        case 8:
+          globals.primaryColor = Colors.blue;
+          break;
       }
 
       widget.reloadMain();
@@ -66,41 +77,49 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<String> _auth() async {
-    //print(_username.text);
-    _response = await http.post(
-        Uri.encodeFull(
-            "http://rrjprojects.000webhostapp.com/api/authentication.php"),
-        body: {
-          "username": _username.text.trim(),
-          "passkey": _password.text.trim()
-        });
-    _response = json.decode(_response.body);
-    if (_response[0]['authstatus'] == '0') {
-      globals.userName = _response[0]['name'];
-      globals.userId = _response[0]['userId'];
-      globals.welMessage = _response[0]['welMessage'];
-      globals.userEmail = _response[0]['emailId'];
-      globals.accUserName = _username.text.trim();
-      globals.userPassword = _password.text.trim();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("accUserName", globals.accUserName);
-      prefs.setString("userPassword", globals.userPassword);
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          '/explorePage', (Route<dynamic> route) => false);
-    } else if (_response[0]['authstatus'] == '2') {
-      widget._scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.red,
-        content: Text('Please check your username 😮'),
-        duration: Duration(seconds: 3),
-      ));
-      _resetPage(0);
-    } else if (_response[0]['authstatus'] == '1') {
+    //print(globals.accUserName);
+    try {
+      _response = await http.post(
+          Uri.encodeFull(
+              "http://rrjprojects.000webhostapp.com/api/authentication.php"),
+          body: {
+            "username": _username.text.trim(),
+            "passkey": _password.text.trim()
+          });
+      _response = json.decode(_response.body);
+      if (_response[0]['authstatus'] == '0') {
+        globals.userName = _response[0]['name'];
+        globals.userId = _response[0]['userId'];
+        globals.welMessage = _response[0]['welMessage'];
+        globals.userEmail = _response[0]['emailId'];
+        globals.accUserName = _username.text.trim();
+        globals.userPassword = _password.text.trim();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("accUserName", globals.accUserName);
+        prefs.setString("userPassword", globals.userPassword);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/explorePage', (Route<dynamic> route) => false);
+      } else if (_response[0]['authstatus'] == '2') {
+        widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Please check your username 😮'),
+          duration: Duration(seconds: 3),
+        ));
+        _resetPage(0);
+      } else if (_response[0]['authstatus'] == '1') {
+        widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Colors.orange,
+          content: Text('Please check your password 🤨'),
+          duration: Duration(seconds: 3),
+        ));
+        _resetPage(1);
+      }
+    } catch (SocketException) {
       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Please check your password 🤨'),
+        content: Text('Woah! Seems like a Network Error'),
         duration: Duration(seconds: 3),
       ));
-      _resetPage(1);
     }
   }
 
@@ -175,13 +194,22 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.white,
             colorBrightness: Brightness.light,
             onPressed: () {
-              _auth();
+              setState(() {
+                _isLoading = true;
+                _auth();
+              });
             },
-            child: Text("Proceed to Auto-Login 😎"),
+            child: (_isLoading == false)
+                ? Text("Proceed to Auto-Login 😎")
+                : SizedBox(
+                    height: 20.0,
+                    width: 20.0,
+                    child: CircularProgressIndicator(),
+                  ),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
           ),
-        )
+        ),
       ],
     );
   }
@@ -255,7 +283,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 child: _signUpBtn(),
-              )
+              ),
             ],
           ),
         ));

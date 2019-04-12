@@ -62,6 +62,12 @@ class _CreatePageWState extends State<CreatePageW> {
           duration: Duration(seconds: 3),
         ));
       });
+    } catch (SocketException) {
+      widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.orange,
+        content: Text('Woah! Seems like a Network Error'),
+        duration: Duration(seconds: 3),
+      ));
     }
   }
 
@@ -115,7 +121,7 @@ class _CreatePageWState extends State<CreatePageW> {
           child: FlatButton.icon(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
-            color: Colors.green,
+            color: globals.primaryColor,
             disabledColor: Colors.grey,
             disabledTextColor: Colors.white,
             colorBrightness: Brightness.dark,

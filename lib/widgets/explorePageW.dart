@@ -4,10 +4,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:advanced_share/advanced_share.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../global.dart' as globals;
 
 class ExplorePageW extends StatefulWidget {
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  ExplorePageW(this._scaffoldKey);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -31,21 +34,29 @@ class _ExplorePageState extends State<ExplorePageW> {
 
   Future<String> _getIdeas() async {
     _isLoadingExplore = true;
-    _response = await http.get(Uri.encodeFull(
-        "http://rrjprojects.000webhostapp.com/api/ideasGet.php?userId=" +
-            globals.userId));
-    _response = json.decode(_response.body);
-    //print(_response);
-    if (_response[0]['sno'] != -1) {
-      setState(() {
-        _ideasLst = _response;
-        _isLoadingExplore = false;
-      });
-    } else {
-      setState(() {
-        _isLoadingExplore = false;
-        _noContent = true;
-      });
+    try {
+      _response = await http.get(Uri.encodeFull(
+          "http://rrjprojects.000webhostapp.com/api/ideasGet.php?userId=" +
+              globals.userId));
+      _response = json.decode(_response.body);
+      //print(_response);
+      if (_response[0]['sno'] != -1) {
+        setState(() {
+          _ideasLst = _response;
+          _isLoadingExplore = false;
+        });
+      } else {
+        setState(() {
+          _isLoadingExplore = false;
+          _noContent = true;
+        });
+      }
+    } catch (SocketException) {
+      widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.orange,
+        content: Text('Woah! Seems like a Network Error'),
+        duration: Duration(seconds: 3),
+      ));
     }
   }
 
@@ -129,7 +140,7 @@ class _ExplorePageState extends State<ExplorePageW> {
   }
 
   Widget _ideasExpansionTile() {
-    return RefreshIndicator(
+    return LiquidPullToRefresh(
         key: _refreshIndicatorKey,
         onRefresh: _getIdeas,
         child: ListView.builder(

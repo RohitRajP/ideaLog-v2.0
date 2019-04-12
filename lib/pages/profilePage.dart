@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SignUpPage extends StatefulWidget {
-  Function reloadMain;
-  SignUpPage(this.reloadMain);
+import '../global.dart' as globals;
+
+class ProfilePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _SignUpPageState();
+    return _ProfilePageState();
   }
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _userNameController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   TextEditingController _passwordConfirmController =
       new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _userName, _name, _password, _passwordConfirm;
   bool _isLoading = false;
   var _response;
 
@@ -28,9 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextField(
       controller: _userNameController,
       maxLength: 20,
-      onChanged: (String value) {
-        _userName = value;
-      },
       decoration: InputDecoration(
           labelText: "Username",
           hintText: "Your unique username",
@@ -42,9 +39,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextField(
       maxLength: 20,
       controller: _passwordController,
-      onChanged: (String value) {
-        _password = value;
-      },
       obscureText: true,
       decoration: InputDecoration(
           labelText: "Password",
@@ -57,9 +51,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextField(
       maxLength: 20,
       controller: _passwordConfirmController,
-      onChanged: (String value) {
-        _passwordConfirm = value;
-      },
       obscureText: true,
       decoration: InputDecoration(
           labelText: "Password Confirmation",
@@ -72,9 +63,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return TextField(
       maxLength: 20,
       controller: _nameController,
-      onChanged: (String value) {
-        _name = value;
-      },
       decoration: InputDecoration(
           labelText: "Your name",
           hintText: "What do I call you?",
@@ -82,20 +70,23 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _signUpBtn() {
+  Widget _updateBtn() {
     return Row(
       children: <Widget>[
         Expanded(
           child: RaisedButton(
             elevation: 5.0,
-            color: Colors.indigo,
+            color: globals.primaryColor,
             textColor: Colors.white,
             colorBrightness: Brightness.light,
             onPressed: () {
-              _processSignIn();
+              setState(() {
+                _isLoading = true;
+                _processUpdate();
+              });
             },
             child: (_isLoading != true)
-                ? Text("Sign Up")
+                ? Text("Update profile")
                 : SizedBox(
                     height: 20.0,
                     width: 20.0,
@@ -111,13 +102,14 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void _processSignIn() {
+  void _processUpdate() {
     if (_nameController.text.length > 0 &&
         _passwordController.text.length > 0 &&
         _userNameController.text.length > 0 &&
         _passwordConfirmController.text.length > 0) {
-      if (_password.compareTo(_passwordConfirm) == 0) {
-        _registerUser();
+      if (_passwordController.text.compareTo(_passwordConfirmController.text) ==
+          0) {
+        _updateProfilePOST();
       } else {
         _passwordController.clear();
         _passwordConfirmController.clear();
@@ -136,29 +128,35 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  Future<String> _registerUser() async {
+  Future<String> _updateProfilePOST() async {
     //print(_username.text);
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/createUser.php"),
+              "http://rrjprojects.000webhostapp.com/api/updateUserInfo.php"),
           body: {
-            "username": _userName.trim(),
-            "passkey": _password.trim(),
-            "name": _name.trim()
+            "username": _userNameController.text.trim(),
+            "passkey": _passwordController.text.trim(),
+            "userName": _nameController.text.trim(),
+            "userId": globals.userId
           });
       _response = json.decode(_response.body);
       if (_response[0]['status'] == '1') {
-        _nameController.text = "";
-        _passwordController.text = "";
         _passwordConfirmController.text = "";
-        _nameController.text = "";
-        _userNameController.text = "";
+        globals.accUserName = _userNameController.text;
+        globals.userName = _nameController.text;
+        globals.userPassword = _passwordController.text;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("accUserName", globals.accUserName);
+        prefs.setString("userPassword", globals.userPassword);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.green,
-          content: Text('Welcome to the club! Proceed to login 😃'),
+          content: Text('Your profile has been updated! 😃'),
           duration: Duration(seconds: 3),
         ));
+        setState(() {
+          _isLoading = false;
+        });
       }
     } catch (FormatException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -176,13 +174,22 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _userNameController.text = globals.accUserName;
+    _nameController.text = globals.userName;
+    _passwordController.text = globals.userPassword;
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          backgroundColor: Colors.indigo,
-          title: Text("Sign Up"),
+          backgroundColor: globals.primaryColor,
+          title: Text("Profile"),
         ),
         body: Container(
           alignment: Alignment.center,
@@ -207,7 +214,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   height: 10.0,
                 ),
-                _signUpBtn()
+                _updateBtn()
               ],
             ),
           ),

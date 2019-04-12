@@ -7,6 +7,7 @@ import './pages/editIdeaPage.dart';
 import './pages/signUpPage.dart';
 import './pages/colorPickerPage.dart';
 import './global.dart' as globals;
+import './pages/profilePage.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,7 +36,8 @@ class _MyAppState extends State<MyApp> {
         '/loginPage': (BuildContext context) => MyApp(),
         '/signUpPage': (BuildContext context) => SignUpPage(reloadPage),
         '/appSettingsPage': (BuildContext context) =>
-            ColorPickerPage(reloadPage)
+            ColorPickerPage(reloadPage),
+        '/profilePage': (BuildContext context) => ProfilePage()
       },
       theme: ThemeData(primarySwatch: globals.primaryColor),
       home: SafeArea(
