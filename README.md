@@ -1,6 +1,7 @@
 # idealog
 
-A new Flutter project.
+This is solution for a problem I faced - Getting all my ideas down somewhere easily accessible, shareable and editable. 
+IdeaLog is a solution built using the flutter framework to provide a platform for hosting, sharing and editing all our ideas, all arranged according to priority.
 
 ## Getting Started
 
