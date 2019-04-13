@@ -126,7 +126,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
                 borderRadius: BorderRadius.circular(5.0)),
             title: Text("Are you sure?"),
             content: Text(
-                "This action will remove the idea from the explore list 🤯                                                                                                                                                                                                                                                                                                                                         "),
+                "This action will remove the idea from the explore list 😥                                                                                                                                                                                                                                                                                                                                       "),
             actions: <Widget>[
               FlatButton(
                 shape: RoundedRectangleBorder(
@@ -154,25 +154,25 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
         });
   }
 
-  Widget _deleteIdeaBtn() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: FlatButton.icon(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-            color: Colors.red,
-            colorBrightness: Brightness.dark,
-            icon: Icon(Icons.delete),
-            label: Text("Delete Idea"),
-            onPressed: () {
-              _showConfirmDialog();
-            },
-          ),
-        )
-      ],
-    );
-  }
+  // Widget _deleteIdeaBtn() {
+  //   return Row(
+  //     children: <Widget>[
+  //       Expanded(
+  //         child: FlatButton.icon(
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(5.0)),
+  //           color: Colors.red,
+  //           colorBrightness: Brightness.dark,
+  //           icon: Icon(Icons.delete),
+  //           label: Text("Delete Idea"),
+  //           onPressed: () {
+  //             _showConfirmDialog();
+  //           },
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
   Future<String> _deleteIdeaConfirm() async {
     setState(() {
@@ -235,6 +235,22 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
                   (_isUpdating == false) ? Colors.green : Colors.grey,
             ),
             appBar: AppBar(
+              actions: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(9.0),
+                  child: FlatButton.icon(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                    color: Colors.red,
+                    colorBrightness: Brightness.dark,
+                    icon: Icon(Icons.delete),
+                    label: Text("Delete Idea"),
+                    onPressed: () {
+                      _showConfirmDialog();
+                    },
+                  ),
+                )
+              ],
               title: Text(globals.editIdeaName),
             ),
             body: Container(
@@ -261,9 +277,8 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
                   ),
                   _getPriority(),
                   SizedBox(
-                    height: 20.0,
+                    height: 70.0,
                   ),
-                  _deleteIdeaBtn()
                 ],
               ),
             )));

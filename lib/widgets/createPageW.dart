@@ -119,6 +119,7 @@ class _CreatePageWState extends State<CreatePageW> {
       children: <Widget>[
         Expanded(
           child: FlatButton.icon(
+            padding: EdgeInsets.all(20.0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
             color: globals.primaryColor,
@@ -143,7 +144,7 @@ class _CreatePageWState extends State<CreatePageW> {
                     } else {
                       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
                         backgroundColor: Colors.orange,
-                        content: Text('Please check for empty fields 🧐'),
+                        content: Text('Please check for empty fields 😥'),
                         duration: Duration(seconds: 3),
                       ));
                     }

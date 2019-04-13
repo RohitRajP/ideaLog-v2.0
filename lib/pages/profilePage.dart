@@ -17,11 +17,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _userNameController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordConfirmController =
       new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool _isLoading = false;
+  bool _isLoading = false,
+      _passwordNotVisible = true,
+      _passwordNotVisible2 = true;
   var _response;
 
   Widget _getUserName() {
@@ -39,8 +42,16 @@ class _ProfilePageState extends State<ProfilePage> {
     return TextField(
       maxLength: 20,
       controller: _passwordController,
-      obscureText: true,
+      obscureText: _passwordNotVisible,
       decoration: InputDecoration(
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: () {
+              setState(() {
+                _passwordNotVisible = !_passwordNotVisible;
+              });
+            },
+          ),
           labelText: "Password",
           hintText: "Your secure password",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
@@ -51,10 +62,29 @@ class _ProfilePageState extends State<ProfilePage> {
     return TextField(
       maxLength: 20,
       controller: _passwordConfirmController,
-      obscureText: true,
+      obscureText: _passwordNotVisible2,
       decoration: InputDecoration(
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: () {
+              setState(() {
+                _passwordNotVisible2 = !_passwordNotVisible2;
+              });
+            },
+          ),
           labelText: "Password Confirmation",
           hintText: "Please enter one more time",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
+    );
+  }
+
+  Widget _getEmailID() {
+    return TextField(
+      maxLength: 50,
+      controller: _emailController,
+      decoration: InputDecoration(
+          labelText: "Your email ID",
+          hintText: "Your current email Id",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
     );
   }
@@ -75,15 +105,13 @@ class _ProfilePageState extends State<ProfilePage> {
       children: <Widget>[
         Expanded(
           child: RaisedButton(
+            padding: EdgeInsets.all(20.0),
             elevation: 5.0,
             color: globals.primaryColor,
             textColor: Colors.white,
             colorBrightness: Brightness.light,
             onPressed: () {
-              setState(() {
-                _isLoading = true;
-                _processUpdate();
-              });
+              _processUpdate();
             },
             child: (_isLoading != true)
                 ? Text("Update profile")
@@ -106,10 +134,14 @@ class _ProfilePageState extends State<ProfilePage> {
     if (_nameController.text.length > 0 &&
         _passwordController.text.length > 0 &&
         _userNameController.text.length > 0 &&
-        _passwordConfirmController.text.length > 0) {
+        _passwordConfirmController.text.length > 0 &&
+        _emailController.text.length > 0) {
       if (_passwordController.text.compareTo(_passwordConfirmController.text) ==
           0) {
-        _updateProfilePOST();
+        setState(() {
+          _isLoading = true;
+          _updateProfilePOST();
+        });
       } else {
         _passwordController.clear();
         _passwordConfirmController.clear();
@@ -138,6 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
             "username": _userNameController.text.trim(),
             "passkey": _passwordController.text.trim(),
             "userName": _nameController.text.trim(),
+            "emailID": _emailController.text.trim(),
             "userId": globals.userId
           });
       _response = json.decode(_response.body);
@@ -154,9 +187,6 @@ class _ProfilePageState extends State<ProfilePage> {
           content: Text('Your profile has been updated! 😃'),
           duration: Duration(seconds: 3),
         ));
-        setState(() {
-          _isLoading = false;
-        });
       }
     } catch (FormatException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -171,6 +201,9 @@ class _ProfilePageState extends State<ProfilePage> {
         duration: Duration(seconds: 3),
       ));
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -180,6 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _userNameController.text = globals.accUserName;
     _nameController.text = globals.userName;
     _passwordController.text = globals.userPassword;
+    _emailController.text = globals.userEmail;
   }
 
   @override
@@ -207,6 +241,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 10.0,
                 ),
                 _getPasswordConfirm(),
+                SizedBox(
+                  height: 10.0,
+                ),
+                _getEmailID(),
                 SizedBox(
                   height: 10.0,
                 ),

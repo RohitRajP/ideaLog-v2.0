@@ -20,8 +20,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _username = new TextEditingController();
   TextEditingController _password = new TextEditingController();
-  bool _isLoading = false, _continueLogin = false;
+  bool _isLoading = false, _continueLogin = false, _passwordNotVisible = true;
   var _response;
+  String temp;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _autoLoginCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String temp = prefs.getString("accUserName");
+    temp = prefs.getString("accUserName");
     int _primaryC = prefs.getInt("primaryColor");
     // print(temp);
     //print(_primaryC);
@@ -109,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
       } else if (_response[0]['authstatus'] == '1') {
         widget._scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.orange,
-          content: Text('Please check your password 🤨'),
+          content: Text('Please check your password 😮'),
           duration: Duration(seconds: 3),
         ));
         _resetPage(1);
@@ -152,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
           hintText: "Password"),
-      obscureText: true,
+      obscureText: _passwordNotVisible,
     );
   }
 
@@ -161,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
       children: <Widget>[
         Expanded(
           child: RaisedButton(
+            padding: EdgeInsets.all(30.0),
             elevation: 5.0,
             color: Colors.white,
             colorBrightness: Brightness.light,
@@ -171,14 +173,16 @@ class _LoginPageState extends State<LoginPage> {
               });
             },
             child: (_isLoading == false)
-                ? Text("Proceed 😉")
+                ? Text(
+                    "Proceed 😉",
+                  )
                 : SizedBox(
                     height: 20.0,
                     width: 20.0,
                     child: CircularProgressIndicator(),
                   ),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
+                borderRadius: BorderRadius.circular(5.0)),
           ),
         )
       ],
@@ -190,6 +194,7 @@ class _LoginPageState extends State<LoginPage> {
       children: <Widget>[
         Expanded(
           child: RaisedButton(
+            padding: EdgeInsets.all(30.0),
             elevation: 5.0,
             color: Colors.white,
             colorBrightness: Brightness.light,
@@ -200,14 +205,14 @@ class _LoginPageState extends State<LoginPage> {
               });
             },
             child: (_isLoading == false)
-                ? Text("Proceed to Auto-Login 😎")
+                ? Text("Auto-Login to " + temp + " 😎")
                 : SizedBox(
                     height: 20.0,
                     width: 20.0,
                     child: CircularProgressIndicator(),
                   ),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
+                borderRadius: BorderRadius.circular(5.0)),
           ),
         ),
       ],
@@ -215,22 +220,36 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _signUpBtn() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: RaisedButton(
-            elevation: 5.0,
-            color: Colors.white,
-            colorBrightness: Brightness.light,
-            onPressed: () {
-              Navigator.pushNamed(context, '/signUpPage');
-            },
-            child: Text("Sign Up 😃"),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(top: 10.0),
+        child: Text("New User? "),
+      ),
+      Container(
+          margin: EdgeInsets.only(top: 10.0),
+          alignment: Alignment.center,
+          child: InkWell(
+              child: new Text(
+                'Sign Up 😃',
+                style: TextStyle(color: Colors.indigo),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/signUpPage');
+              }))
+    ]);
+  }
+
+  Widget _forgotPassword() {
+    return Container(
+      alignment: Alignment.centerRight,
+      child: InkWell(
+          child: new Text(
+            'Forgot password?',
+            style: TextStyle(fontSize: 12.0, color: Colors.indigo),
           ),
-        )
-      ],
+          onTap: () {
+            Navigator.pushNamed(context, '/forgotPasswordPage');
+          }),
     );
   }
 
@@ -254,6 +273,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
         _passwordTextField(),
         SizedBox(
+          height: 10.0,
+        ),
+        _forgotPassword(),
+        SizedBox(
           height: 20.0,
         ),
         _proceedBtn(),
@@ -263,6 +286,37 @@ class _LoginPageState extends State<LoginPage> {
         // _signUpBtn()
       ],
     );
+  }
+
+  void _clearLoginLogs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    globals.userId = null;
+    globals.userName = null;
+    globals.accUserName = null;
+    globals.userPassword = null;
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/loginPage', (Route<dynamic> route) => false);
+  }
+
+  Widget _logOutBtn() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(top: 10.0),
+        child: Text("Not you? "),
+      ),
+      Container(
+          margin: EdgeInsets.only(top: 10.0),
+          alignment: Alignment.center,
+          child: InkWell(
+              child: new Text(
+                'Log Out 😄',
+                style: TextStyle(color: Colors.indigo),
+              ),
+              onTap: () {
+                _clearLoginLogs();
+              }))
+    ]);
   }
 
   @override
@@ -280,6 +334,15 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Container(
                 child: (_continueLogin != true) ? _loginBox() : _autoLoginBtn(),
+              ),
+              SizedBox(
+                height: (_continueLogin != true) ? 0.0 : 10.0,
+              ),
+              Container(
+                child: (_continueLogin != true) ? null : _logOutBtn(),
+              ),
+              SizedBox(
+                height: 10.0,
               ),
               Container(
                 child: _signUpBtn(),

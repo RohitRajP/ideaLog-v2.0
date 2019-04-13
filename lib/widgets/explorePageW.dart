@@ -69,56 +69,72 @@ class _ExplorePageState extends State<ExplorePageW> {
   }
 
   Widget _expansionTileBuilder(BuildContext context, int index) {
-    return ExpansionTile(
-      leading: Icon(FontAwesomeIcons.lightbulb),
-      title: Text(
-        _ideasLst[index]['ideaName'],
-      ),
+    return Column(
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.all(10.0),
-          child: Text(_ideasLst[index]['ideaDescription'].toString()),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ExpansionTile(
+          leading: Icon(FontAwesomeIcons.lightbulb),
+          title: Text(
+            _ideasLst[index]['ideaName'],
+          ),
           children: <Widget>[
             Container(
               margin: EdgeInsets.all(10.0),
-              child: Text(
-                "Priority: " + _ideasLst[index]['ideaPriority'].toString(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-              ),
+              child: Text(_ideasLst[index]['ideaDescription'].toString()),
             ),
-            Container(
-              child: ButtonBar(
-                children: <Widget>[
-                  FlatButton.icon(
-                    icon: Icon(FontAwesomeIcons.whatsapp),
-                    onPressed: () {
-                      AdvancedShare.whatsapp(
-                          msg: "*" +
-                              _ideasLst[index]['ideaName'] +
-                              "*" +
-                              " : " +
-                              _ideasLst[index]['ideaDescription']);
-                    },
-                    label: Text("Share"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    "Priority: " + _ideasLst[index]['ideaPriority'].toString(),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
-                  FlatButton.icon(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      _moveToEditIdea(
-                          _ideasLst[index]['sno'],
-                          _ideasLst[index]['ideaName'],
-                          _ideasLst[index]['ideaDescription'],
-                          _ideasLst[index]['ideaPriority']);
-                    },
-                    label: Text("Edit"),
-                  )
-                ],
-              ),
+                ),
+                Container(
+                  child: ButtonBar(
+                    children: <Widget>[
+                      FlatButton.icon(
+                        icon: Icon(FontAwesomeIcons.whatsapp),
+                        onPressed: () {
+                          AdvancedShare.whatsapp(
+                              msg: "*" +
+                                  _ideasLst[index]['ideaName'] +
+                                  "*" +
+                                  " : " +
+                                  _ideasLst[index]['ideaDescription']);
+                        },
+                        label: Text("Share"),
+                      ),
+                      FlatButton.icon(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          _moveToEditIdea(
+                              _ideasLst[index]['sno'],
+                              _ideasLst[index]['ideaName'],
+                              _ideasLst[index]['ideaDescription'],
+                              _ideasLst[index]['ideaPriority']);
+                        },
+                        label: Text("Edit"),
+                      )
+                    ],
+                  ),
+                )
+              ],
             )
           ],
+        ),
+        Container(
+          margin: (index == _ideasLst.length - 1)
+              ? EdgeInsets.only(top: 10.0, bottom: 30.0)
+              : null,
+          child: (index == _ideasLst.length - 1)
+              ? Text(
+                  "Pull down to refresh feed",
+                  style: TextStyle(color: Colors.grey),
+                )
+              : null,
         )
       ],
     );

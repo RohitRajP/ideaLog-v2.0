@@ -100,7 +100,7 @@ class _DashPageState extends State<DashPage> {
                     child: ListView(
                       children: <Widget>[
                         UserAccountsDrawerHeader(
-                          accountEmail: Text("Innovator id: " + globals.userId),
+                          accountEmail: Text("Innovator ID: " + globals.userId),
                           accountName: Text(globals.userName,
                               style: TextStyle(fontSize: 18.0)),
                           currentAccountPicture: CircleAvatar(
