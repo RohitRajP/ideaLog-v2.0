@@ -9,6 +9,7 @@ import './pages/colorPickerPage.dart';
 import './global.dart' as globals;
 import './pages/profilePage.dart';
 import './pages/forgotPasswordPage.dart';
+import './pages/userDetailsPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,7 +40,8 @@ class _MyAppState extends State<MyApp> {
         '/appSettingsPage': (BuildContext context) =>
             ColorPickerPage(reloadPage),
         '/profilePage': (BuildContext context) => ProfilePage(),
-        '/forgotPasswordPage': (BuildContext context) => ForgotPasswordPage()
+        '/forgotPasswordPage': (BuildContext context) => ForgotPasswordPage(),
+        '/userDetails': (BuildContext context) => UserDetailsPage()
       },
       theme: ThemeData(primarySwatch: globals.primaryColor),
       home: SafeArea(

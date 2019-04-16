@@ -46,7 +46,7 @@ class _CreatePageWState extends State<CreatePageW> {
           _isUpdating = false;
           widget._scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: Colors.green,
-            content: Text('Idea Created!'),
+            content: Text('Idea Created! 😃'),
             duration: Duration(seconds: 3),
           ));
           _ideaNameControl.text = "";
@@ -58,14 +58,14 @@ class _CreatePageWState extends State<CreatePageW> {
         _isUpdating = false;
         widget._scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.red,
-          content: Text('An error occurred during updating'),
+          content: Text('An error occurred during updating 😥'),
           duration: Duration(seconds: 3),
         ));
       });
     } catch (SocketException) {
       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error'),
+        content: Text('Woah! Seems like a Network Error 😥'),
         duration: Duration(seconds: 3),
       ));
     }

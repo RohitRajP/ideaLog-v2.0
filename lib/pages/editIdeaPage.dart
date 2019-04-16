@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+//import 'package:speech_recognition/speech_recognition.dart';
 
 import '../global.dart' as globals;
 
@@ -17,15 +18,42 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _ideaNameControl = new TextEditingController();
   TextEditingController _ideaDescControl = new TextEditingController();
+  //SpeechRecognition _speechRecognition;
   double _priorityValue = 0.0;
-  bool _isUpdating = false;
+  bool _isUpdating = false,
+      _srIsAvailable = false,
+      _srIsListening = false,
+      _recStart = false;
   var _response;
 
   void initState() {
     _ideaNameControl.text = globals.editIdeaName;
     _ideaDescControl.text = globals.editIdeaDesc;
     _priorityValue = double.parse(globals.editIdeaPriority);
+    //_initSpeechRecognizer();
   }
+
+  // void _initSpeechRecognizer() {
+  //   _speechRecognition = SpeechRecognition();
+  //   _speechRecognition.setAvailabilityHandler(
+  //       (bool result) => setState(() => _srIsAvailable = result));
+  //   _speechRecognition.setRecognitionStartedHandler(() {
+  //     setState(() {
+  //       _srIsListening = true;
+  //     });
+  //   });
+  //   _speechRecognition
+  //       .setRecognitionResultHandler((String text) => setState(() {
+  //             globals.editIdeaDesc += text;
+  //             _ideaDescControl.text = globals.editIdeaDesc;
+  //           }));
+
+  //   _speechRecognition.setRecognitionCompleteHandler(
+  //       () => setState(() => _srIsListening = false));
+  //   _speechRecognition
+  //       .activate()
+  //       .then((res) => setState(() => _srIsAvailable = res));
+  // }
 
   Future<String> _updateIdea() async {
     setState(() {
@@ -68,7 +96,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
     } catch (SocketException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error'),
+        content: Text('Woah! Seems like a Network Error 😭'),
         duration: Duration(seconds: 3),
       ));
     }
@@ -95,6 +123,29 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
       maxLines: null,
       maxLength: 1500,
       decoration: InputDecoration(
+          // suffixIcon: IconButton(
+          //   onPressed: () {
+          //     if (!_recStart) {
+          //       if (_srIsAvailable && !_srIsListening) {
+          //         print("Hi");
+          //         _recStart = !_recStart;
+          //         _speechRecognition
+          //             .listen(locale: "en_US")
+          //             .then((result) => print('$result'));
+          //       }
+          //     } else {
+          //       if (_srIsListening) {
+          //         _recStart = !_recStart;
+          //         _speechRecognition.stop().then((result) {
+          //           setState(() {
+          //             _srIsListening = result;
+          //           });
+          //         });
+          //       }
+          //     }
+          //   },
+          //   icon: Icon(Icons.mic),
+          // ),
           labelText: "Idea Description",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
           hintText: globals.editIdeaDesc),
@@ -153,26 +204,6 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
           );
         });
   }
-
-  // Widget _deleteIdeaBtn() {
-  //   return Row(
-  //     children: <Widget>[
-  //       Expanded(
-  //         child: FlatButton.icon(
-  //           shape: RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.circular(5.0)),
-  //           color: Colors.red,
-  //           colorBrightness: Brightness.dark,
-  //           icon: Icon(Icons.delete),
-  //           label: Text("Delete Idea"),
-  //           onPressed: () {
-  //             _showConfirmDialog();
-  //           },
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
 
   Future<String> _deleteIdeaConfirm() async {
     setState(() {

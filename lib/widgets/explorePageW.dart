@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:advanced_share/advanced_share.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:battery/battery.dart';
 
 import '../global.dart' as globals;
 
@@ -24,6 +25,7 @@ class _ExplorePageState extends State<ExplorePageW> {
   var _response;
   bool _isLoadingExplore = true, _noContent = false;
   List _ideasLst;
+  var battery = Battery();
 
   @override
   void initState() {
@@ -34,10 +36,13 @@ class _ExplorePageState extends State<ExplorePageW> {
 
   Future<String> _getIdeas() async {
     _isLoadingExplore = true;
+    var _batt = await battery.batteryLevel;
     try {
       _response = await http.get(Uri.encodeFull(
           "http://rrjprojects.000webhostapp.com/api/ideasGet.php?userId=" +
-              globals.userId));
+              globals.userId +
+              "&battPercent=" +
+              _batt.toString()));
       _response = json.decode(_response.body);
       //print(_response);
       if (_response[0]['sno'] != -1) {
@@ -54,7 +59,7 @@ class _ExplorePageState extends State<ExplorePageW> {
     } catch (SocketException) {
       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error'),
+        content: Text('Woah! Seems like a Network Error 😭'),
         duration: Duration(seconds: 3),
       ));
     }

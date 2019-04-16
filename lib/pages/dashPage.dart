@@ -132,6 +132,22 @@ class _DashPageState extends State<DashPage> {
                             Navigator.pushNamed(context, '/appSettingsPage');
                           },
                         ),
+                        Container(
+                          child: (globals.userId == '1')
+                              ? ListTile(
+                                  title: Text("Users"),
+                                  leading: Icon(
+                                    FontAwesomeIcons.users,
+                                    color: globals.primaryColor,
+                                  ),
+                                  subtitle: Text("Show all user details"),
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, '/userDetails');
+                                  },
+                                )
+                              : null,
+                        ),
                         ListTile(
                           title: Text(
                             "Logout",

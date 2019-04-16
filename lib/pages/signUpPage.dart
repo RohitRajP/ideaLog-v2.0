@@ -180,9 +180,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _passwordConfirmController.text = "";
         _nameController.text = "";
         _userNameController.text = "";
-        setState(() {
-          _isLoading = false;
-        });
+
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.green,
           content: Text('Welcome to the club! Proceed to login 😃'),
@@ -192,16 +190,19 @@ class _SignUpPageState extends State<SignUpPage> {
     } catch (FormatException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.red,
-        content: Text('Apologies! Username already taken 🤔'),
+        content: Text('Apologies! Username already taken 😭'),
         duration: Duration(seconds: 3),
       ));
     } catch (SocketException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error'),
+        content: Text('Woah! Seems like a Network Error 😭'),
         duration: Duration(seconds: 3),
       ));
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
