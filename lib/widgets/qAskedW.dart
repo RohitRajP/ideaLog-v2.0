@@ -9,22 +9,22 @@ import 'package:battery/battery.dart';
 
 import '../global.dart' as globals;
 
-class ExplorePageW extends StatefulWidget {
+class QAskedW extends StatefulWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  ExplorePageW(this._scaffoldKey);
+  QAskedW(this._scaffoldKey);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ExplorePageState();
+    return _QAskedWState();
   }
 }
 
-class _ExplorePageState extends State<ExplorePageW> {
+class _QAskedWState extends State<QAskedW> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
   var _response;
-  bool _isLoadingExplore = true, _noContent = false;
-  List _ideasLst;
+  bool _isLoadingQues = true, _noContent = false;
+  List _quesLst;
   var battery = Battery();
 
   @override
@@ -35,11 +35,11 @@ class _ExplorePageState extends State<ExplorePageW> {
   }
 
   Future<String> getIdeas() async {
-    _isLoadingExplore = true;
+    _isLoadingQues = true;
     var _batt = await battery.batteryLevel;
     try {
       _response = await http.get(Uri.encodeFull(
-          "http://rrjprojects.000webhostapp.com/api/ideasGet.php?userId=" +
+          "http://rrjprojects.000webhostapp.com/api/qGet.php?userId=" +
               globals.userId +
               "&battPercent=" +
               _batt.toString()));
@@ -47,12 +47,12 @@ class _ExplorePageState extends State<ExplorePageW> {
       //print(_response);
       if (_response[0]['sno'] != -1) {
         setState(() {
-          _ideasLst = _response;
-          _isLoadingExplore = false;
+          _quesLst = _response;
+          _isLoadingQues = false;
         });
       } else {
         setState(() {
-          _isLoadingExplore = false;
+          _isLoadingQues = false;
           _noContent = true;
         });
       }
@@ -70,7 +70,7 @@ class _ExplorePageState extends State<ExplorePageW> {
     globals.editIdeaName = name;
     globals.editIdeaDesc = desc;
     globals.editIdeaPriority = priority;
-    Navigator.pushNamed(context, '/editIdea').whenComplete(getIdeas);
+    Navigator.pushNamed(context, '/questionEdit').whenComplete(getIdeas);
   }
 
   Widget _expansionTileBuilder(BuildContext context, int index) {
@@ -79,12 +79,12 @@ class _ExplorePageState extends State<ExplorePageW> {
         ExpansionTile(
           leading: Icon(FontAwesomeIcons.lightbulb),
           title: Text(
-            _ideasLst[index]['ideaName'],
+            _quesLst[index]['qName'],
           ),
           children: <Widget>[
             Container(
               margin: EdgeInsets.all(10.0),
-              child: Text(_ideasLst[index]['ideaDescription'].toString()),
+              child: Text(_quesLst[index]['qAnswer'].toString()),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,7 +92,7 @@ class _ExplorePageState extends State<ExplorePageW> {
                 Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
-                    "Priority: " + _ideasLst[index]['ideaPriority'].toString(),
+                    "Priority: " + _quesLst[index]['qPriority'].toString(),
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
@@ -105,10 +105,9 @@ class _ExplorePageState extends State<ExplorePageW> {
                         onPressed: () {
                           AdvancedShare.whatsapp(
                               msg: "*" +
-                                  _ideasLst[index]['ideaName'] +
-                                  "*" +
-                                  " : " +
-                                  _ideasLst[index]['ideaDescription']);
+                                  _quesLst[index]['qName'] +
+                                  "* : " +
+                                  _quesLst[index]['qAnswer']);
                         },
                         label: Text("Share"),
                       ),
@@ -116,10 +115,10 @@ class _ExplorePageState extends State<ExplorePageW> {
                         icon: Icon(Icons.edit),
                         onPressed: () {
                           _moveToEditIdea(
-                              _ideasLst[index]['sno'],
-                              _ideasLst[index]['ideaName'],
-                              _ideasLst[index]['ideaDescription'],
-                              _ideasLst[index]['ideaPriority']);
+                              _quesLst[index]['sno'],
+                              _quesLst[index]['qName'],
+                              _quesLst[index]['qAnswer'],
+                              _quesLst[index]['qPriority']);
                         },
                         label: Text("Edit"),
                       )
@@ -131,10 +130,10 @@ class _ExplorePageState extends State<ExplorePageW> {
           ],
         ),
         Container(
-          margin: (index == _ideasLst.length - 1)
-              ? EdgeInsets.only(top: 10.0, bottom: 30.0)
+          margin: (index == _quesLst.length - 1)
+              ? EdgeInsets.only(top: 15.0, bottom: 30.0)
               : null,
-          child: (index == _ideasLst.length - 1)
+          child: (index == _quesLst.length - 1)
               ? Text(
                   "Pull down to refresh feed",
                   style: TextStyle(color: Colors.grey),
@@ -145,7 +144,7 @@ class _ExplorePageState extends State<ExplorePageW> {
     );
   }
 
-  Widget _loadingIdeas() {
+  Widget _loadingQues() {
     return Container(
       alignment: Alignment.center,
       child: Column(
@@ -154,25 +153,25 @@ class _ExplorePageState extends State<ExplorePageW> {
         children: <Widget>[
           CircularProgressIndicator(),
           SizedBox(height: 10.0),
-          Text("Fetching your ideas")
+          Text("Fetching your questions")
         ],
       ),
     );
   }
 
-  Widget _ideasExpansionTile() {
+  Widget _quesExpansionTile() {
     return LiquidPullToRefresh(
         key: _refreshIndicatorKey,
         onRefresh: getIdeas,
         child: ListView.builder(
           itemBuilder: _expansionTileBuilder,
-          itemCount: _ideasLst.length,
+          itemCount: _quesLst.length,
         ));
   }
 
   Widget _noContentView() {
     return Container(
-        margin: EdgeInsets.all(20.0),
+        padding: EdgeInsets.only(top: 20.0),
         child: Center(
             child: Center(
           child: Text(globals.welMessage, textAlign: TextAlign.center),
@@ -183,9 +182,9 @@ class _ExplorePageState extends State<ExplorePageW> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      child: (_isLoadingExplore == true)
-          ? _loadingIdeas()
-          : (_noContent == false) ? _ideasExpansionTile() : _noContentView(),
+      child: (_isLoadingQues == true)
+          ? _loadingQues()
+          : (_noContent == false) ? _quesExpansionTile() : _noContentView(),
     );
   }
 }

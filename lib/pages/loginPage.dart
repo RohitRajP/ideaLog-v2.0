@@ -142,24 +142,36 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _userNameTextField() {
-    return TextField(
-      controller: _username,
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-          hintText: "Username"),
-    );
+    return Theme(
+        data: new ThemeData(
+          primaryColor: Colors.indigo,
+          primaryColorDark: Colors.indigoAccent,
+        ),
+        child: TextField(
+          controller: _username,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+              hintText: "Username"),
+        ));
   }
 
   Widget _passwordTextField() {
-    return TextField(
-      controller: _password,
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-          hintText: "Password"),
-      obscureText: _passwordNotVisible,
-    );
+    return Theme(
+        data: new ThemeData(
+          primaryColor: Colors.indigo,
+          primaryColorDark: Colors.indigoAccent,
+        ),
+        child: TextField(
+          controller: _password,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+              hintText: "Password"),
+          obscureText: _passwordNotVisible,
+        ));
   }
 
   Widget _proceedBtn() {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import './pages/loginPage.dart';
 import './pages/dashPage.dart';
@@ -10,6 +9,8 @@ import './global.dart' as globals;
 import './pages/profilePage.dart';
 import './pages/forgotPasswordPage.dart';
 import './pages/userDetailsPage.dart';
+import './pages/questionsPage.dart';
+import './pages/editQuesPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,7 +42,9 @@ class _MyAppState extends State<MyApp> {
             ColorPickerPage(reloadPage),
         '/profilePage': (BuildContext context) => ProfilePage(),
         '/forgotPasswordPage': (BuildContext context) => ForgotPasswordPage(),
-        '/userDetails': (BuildContext context) => UserDetailsPage()
+        '/userDetails': (BuildContext context) => UserDetailsPage(),
+        '/questionsPage': (BuildContext context) => QuestionsPage(),
+        '/questionEdit': (BuildContext context) => EditQuesPage(),
       },
       theme: ThemeData(primarySwatch: globals.primaryColor),
       home: SafeArea(

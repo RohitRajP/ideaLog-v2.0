@@ -22,7 +22,9 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _nameController = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _userName, _name, _password, _passwordConfirm, _email;
-  bool _isLoading = false;
+  bool _isLoading = false,
+      _passwordNotVisible = true,
+      _passwordNotVisible2 = true;
   var _response;
 
   Widget _getUserName() {
@@ -47,8 +49,16 @@ class _SignUpPageState extends State<SignUpPage> {
       onChanged: (String value) {
         _password = value;
       },
-      obscureText: true,
+      obscureText: _passwordNotVisible,
       decoration: InputDecoration(
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: () {
+              setState(() {
+                _passwordNotVisible = !_passwordNotVisible;
+              });
+            },
+          ),
           helperText: "Include numbers and special characters",
           labelText: "Password",
           hintText: "Your secure password",
@@ -63,8 +73,16 @@ class _SignUpPageState extends State<SignUpPage> {
       onChanged: (String value) {
         _passwordConfirm = value;
       },
-      obscureText: true,
+      obscureText: _passwordNotVisible2,
       decoration: InputDecoration(
+          suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: () {
+              setState(() {
+                _passwordNotVisible2 = !_passwordNotVisible2;
+              });
+            },
+          ),
           labelText: "Password Confirmation",
           helperText: "It must be same as password",
           hintText: "Please enter one more time",

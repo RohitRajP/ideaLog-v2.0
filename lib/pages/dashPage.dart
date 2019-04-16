@@ -110,12 +110,25 @@ class _DashPageState extends State<DashPage> {
                           ),
                         ),
                         ListTile(
+                          title: Text("Q&A Dashboard"),
+                          leading: Icon(
+                            FontAwesomeIcons.question,
+                            color: globals.primaryColor,
+                          ),
+                          subtitle:
+                              Text("All the questions you want the answers to"),
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/questionsPage');
+                          },
+                        ),
+                        ListTile(
                           title: Text("Profile Settings"),
                           leading: Icon(
                             FontAwesomeIcons.userCog,
                             color: globals.primaryColor,
                           ),
-                          subtitle: Text("Change details about your profile"),
+                          subtitle: Text("Change your profile details"),
                           onTap: () {
                             Navigator.pushNamed(context, '/profilePage');
                           },
@@ -168,7 +181,7 @@ class _DashPageState extends State<DashPage> {
                   ),
                   key: _scaffoldKey,
                   appBar: AppBar(
-                    title: Text("Dashboard"),
+                    title: Text("IDEA Dashboard"),
                     bottom: TabBar(
                       tabs: <Widget>[
                         Tab(
