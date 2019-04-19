@@ -219,43 +219,45 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: globals.primaryColor,
-          title: Text("Profile"),
-        ),
-        body: Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.all(30.0),
-          child: Center(
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                _getUserName(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                _getPassword(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                _getPasswordConfirm(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                _getEmailID(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                _getName(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                _updateBtn()
-              ],
-            ),
+    return SafeArea(
+      child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            backgroundColor: globals.primaryColor,
+            title: Text("Profile"),
           ),
-        ));
+          body: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(30.0),
+            child: Center(
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  _getUserName(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _getPassword(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _getPasswordConfirm(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _getEmailID(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _getName(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _updateBtn()
+                ],
+              ),
+            ),
+          )),
+    );
   }
 }

@@ -132,7 +132,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             ),
                             subtitle: Text("Change your profile details"),
                             onTap: () {
-                              Navigator.pushNamed(context, '/questionsPage');
+                              Navigator.pushNamed(context, '/profilePage');
                             },
                           ),
                           ListTile(

@@ -226,43 +226,45 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.indigo,
-          title: Text("Sign Up"),
-        ),
-        body: Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.all(30.0),
-          child: Center(
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                _getUserName(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                _getPassword(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                _getPasswordConfirm(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                _getEmailId(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                _getName(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                _signUpBtn()
-              ],
-            ),
+    return SafeArea(
+      child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            backgroundColor: Colors.indigo,
+            title: Text("Sign Up"),
           ),
-        ));
+          body: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(30.0),
+            child: Center(
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  _getUserName(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  _getPassword(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  _getPasswordConfirm(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  _getEmailId(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  _getName(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  _signUpBtn()
+                ],
+              ),
+            ),
+          )),
+    );
   }
 }

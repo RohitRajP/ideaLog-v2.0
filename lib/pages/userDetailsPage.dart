@@ -93,14 +93,17 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text("User Details"),
-      ),
-      body: Container(
-        child:
-            (_isLoadingDetails == true) ? _loadingDetails() : _uDetailsTiles(),
+    return SafeArea(
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text("User Details"),
+        ),
+        body: Container(
+          child: (_isLoadingDetails == true)
+              ? _loadingDetails()
+              : _uDetailsTiles(),
+        ),
       ),
     );
   }

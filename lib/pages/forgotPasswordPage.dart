@@ -116,32 +116,34 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.indigo,
-          title: Text("Password Reset"),
-        ),
-        body: Container(
-            constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height,
-                minWidth: MediaQuery.of(context).size.width),
-            alignment: Alignment.center,
-            child: Center(
-                child: ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(50.0),
-              children: <Widget>[
-                _informMessage(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                _getUsername(),
-                SizedBox(
-                  height: 20.0,
-                ),
-                _submitBtn()
-              ],
-            ))));
+    return SafeArea(
+      child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            backgroundColor: Colors.indigo,
+            title: Text("Password Reset"),
+          ),
+          body: Container(
+              constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                  minWidth: MediaQuery.of(context).size.width),
+              alignment: Alignment.center,
+              child: Center(
+                  child: ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(50.0),
+                children: <Widget>[
+                  _informMessage(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _getUsername(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  _submitBtn()
+                ],
+              )))),
+    );
   }
 }

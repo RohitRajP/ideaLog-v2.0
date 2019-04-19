@@ -10,4 +10,6 @@ String userName,
     userPassword,
     accUserName,
     userEmail;
-Color primaryColor = Colors.indigo, accentColor = Colors.indigoAccent;
+Color primaryColor = Colors.indigo,
+    accentColor = Colors.indigoAccent,
+    ideaTextColor = Colors.red;

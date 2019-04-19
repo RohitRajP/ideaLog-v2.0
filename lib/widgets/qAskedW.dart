@@ -74,12 +74,20 @@ class _QAskedWState extends State<QAskedW> {
   }
 
   Widget _expansionTileBuilder(BuildContext context, int index) {
+    int val = int.parse(_quesLst[index]['qPriority']);
+    if (val >= 8)
+      globals.ideaTextColor = Colors.purple;
+    else if (val >= 4 && val < 8)
+      globals.ideaTextColor = Colors.green;
+    else
+      globals.ideaTextColor = Colors.indigo;
     return Column(
       children: <Widget>[
         ExpansionTile(
           leading: Icon(FontAwesomeIcons.lightbulb),
           title: Text(
             _quesLst[index]['qName'],
+            style: TextStyle(color: globals.ideaTextColor),
           ),
           children: <Widget>[
             Container(

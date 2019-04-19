@@ -74,12 +74,37 @@ class _ExplorePageState extends State<ExplorePageW> {
   }
 
   Widget _expansionTileBuilder(BuildContext context, int index) {
+    // switch (index % 4) {
+    //   case 0:
+    //     globals.ideaTextColor = Colors.green;
+    //     break;
+    //   case 1:
+    //     globals.ideaTextColor = Colors.orange;
+    //     break;
+    //   case 2:
+    //     globals.ideaTextColor = Colors.purple;
+    //     break;
+    //   case 3:
+    //     globals.ideaTextColor = Colors.red;
+    //     break;
+    //   case 4:
+    //     globals.ideaTextColor = Colors.teal;
+    //     break;
+    // }
+    int val = int.parse(_ideasLst[index]['ideaPriority']);
+    if (val >= 8)
+      globals.ideaTextColor = Colors.purple;
+    else if (val >= 4 && val < 8)
+      globals.ideaTextColor = Colors.green;
+    else
+      globals.ideaTextColor = Colors.indigo;
     return Column(
       children: <Widget>[
         ExpansionTile(
           leading: Icon(FontAwesomeIcons.lightbulb),
           title: Text(
             _ideasLst[index]['ideaName'],
+            style: TextStyle(color: globals.ideaTextColor),
           ),
           children: <Widget>[
             Container(

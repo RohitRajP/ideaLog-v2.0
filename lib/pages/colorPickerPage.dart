@@ -40,43 +40,45 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("App Settings"),
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        margin: EdgeInsets.all(30.0),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              child: Text(
-                "App color theme: ",
-                style: TextStyle(fontSize: 20.0, color: Colors.blueGrey),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("App Settings"),
+        ),
+        body: Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.all(30.0),
+          child: ListView(
+            children: <Widget>[
+              Container(
+                child: Text(
+                  "App color theme: ",
+                  style: TextStyle(fontSize: 20.0, color: Colors.blueGrey),
+                ),
               ),
-            ),
-            MaterialColorPicker(
-              onMainColorChange: (Color color) {
-                // print(color.toString());
-                _setColorPersistant(color);
-                globals.primaryColor = color;
-                widget.reloadMain();
-              },
-              circleSize: 50.0,
-              selectedColor: globals.primaryColor,
-              allowShades: false,
-              colors: [
-                Colors.deepOrange,
-                Colors.green,
-                Colors.teal,
-                Colors.purple,
-                Colors.indigo,
-                Colors.blueGrey,
-                Colors.brown,
-                Colors.blue
-              ],
-            )
-          ],
+              MaterialColorPicker(
+                onMainColorChange: (Color color) {
+                  // print(color.toString());
+                  _setColorPersistant(color);
+                  globals.primaryColor = color;
+                  widget.reloadMain();
+                },
+                circleSize: 50.0,
+                selectedColor: globals.primaryColor,
+                allowShades: false,
+                colors: [
+                  Colors.deepOrange,
+                  Colors.green,
+                  Colors.teal,
+                  Colors.purple,
+                  Colors.indigo,
+                  Colors.blueGrey,
+                  Colors.brown,
+                  Colors.blue
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
