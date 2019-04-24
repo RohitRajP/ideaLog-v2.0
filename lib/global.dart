@@ -6,10 +6,10 @@ String userName,
     editIdeaDesc,
     editIdeaPriority,
     editIdeaSno,
-    welMessage,
     userPassword,
     accUserName,
     userEmail;
+List qWelMessage, welMessage;
 Color primaryColor = Colors.indigo,
     accentColor = Colors.indigoAccent,
     ideaTextColor = Colors.red;

@@ -208,13 +208,13 @@ class _SignUpPageState extends State<SignUpPage> {
     } catch (FormatException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.red,
-        content: Text('Apologies! Username already taken 😭'),
+        content: Text('Apologies! Username already taken 🙁'),
         duration: Duration(seconds: 3),
       ));
     } catch (SocketException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error 😭'),
+        content: Text('Woah! Seems like a Network Error 🙁'),
         duration: Duration(seconds: 3),
       ));
     }

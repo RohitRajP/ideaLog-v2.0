@@ -96,7 +96,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
     } catch (SocketException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error 😭'),
+        content: Text('Woah! Seems like a Network Error 🙁'),
         duration: Duration(seconds: 3),
       ));
     }
@@ -121,7 +121,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
         child: TextFormField(
       controller: _ideaDescControl,
       maxLines: null,
-      maxLength: 1500,
+      maxLength: 2500,
       decoration: InputDecoration(
           // suffixIcon: IconButton(
           //   onPressed: () {

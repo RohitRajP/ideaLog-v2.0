@@ -66,14 +66,14 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       } else {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.orange,
-          content: Text('Woah! Couldn\'t get any user details 😭'),
+          content: Text('Woah! Couldn\'t get any user details 🙁'),
           duration: Duration(seconds: 3),
         ));
       }
     } catch (SocketException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error 😭'),
+        content: Text('Woah! Seems like a Network Error 🙁'),
         duration: Duration(seconds: 3),
       ));
     }

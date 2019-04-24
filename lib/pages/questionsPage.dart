@@ -68,7 +68,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           context: context,
           builder: (context) => new AlertDialog(
                 title: new Text('Are you sure?'),
-                content: new Text('This action will exit IdeaLog 😭'),
+                content: new Text('This action will exit IdeaLog 🙁'),
                 actions: <Widget>[
                   new FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),

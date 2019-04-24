@@ -97,7 +97,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       } else if (_response[0]['status'] == -1) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.red,
-          content: Text('Couldn\'t find your account in my database 😭'),
+          content: Text('Couldn\'t find your account in my database 🙁'),
           duration: Duration(seconds: 3),
         ));
       }

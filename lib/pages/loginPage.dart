@@ -96,7 +96,8 @@ class _LoginPageState extends State<LoginPage> {
       if (_response[0]['authstatus'] == '0') {
         globals.userName = _response[0]['name'];
         globals.userId = _response[0]['userId'];
-        globals.welMessage = _response[0]['welMessage'];
+        globals.welMessage = _response[0]['welMessage'].toString().split("~");
+        globals.qWelMessage = _response[0]['qwelMessage'].toString().split("~");
         globals.userEmail = _response[0]['emailId'];
         globals.accUserName = _username.text.trim();
         globals.userPassword = _password.text.trim();
@@ -126,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
         content: Text('Woah! Seems like a Network Error'),
         duration: Duration(seconds: 3),
       ));
+      _resetPage(3);
     }
   }
 

@@ -96,7 +96,7 @@ class _EditQuesPageState extends State<EditQuesPage> {
     } catch (SocketException) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error 😭'),
+        content: Text('Woah! Seems like a Network Error 🙁'),
         duration: Duration(seconds: 3),
       ));
     }

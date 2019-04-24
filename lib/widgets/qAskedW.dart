@@ -59,7 +59,7 @@ class _QAskedWState extends State<QAskedW> {
     } catch (SocketException) {
       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error 😭'),
+        content: Text('Woah! Seems like a Network Error 🙁'),
         duration: Duration(seconds: 3),
       ));
     }
@@ -179,10 +179,19 @@ class _QAskedWState extends State<QAskedW> {
 
   Widget _noContentView() {
     return Container(
-        padding: EdgeInsets.only(top: 20.0),
+        padding: EdgeInsets.all(30.0),
         child: Center(
             child: Center(
-          child: Text(globals.welMessage, textAlign: TextAlign.center),
+          child: Text(
+              "😃 " +
+                  globals.qWelMessage[0] +
+                  " 😃" +
+                  '\n' +
+                  globals.qWelMessage[1] +
+                  " 😊\n" +
+                  globals.qWelMessage[2] +
+                  " 👉",
+              textAlign: TextAlign.center),
         )));
   }
 

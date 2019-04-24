@@ -35,7 +35,9 @@ class _ExplorePageState extends State<ExplorePageW> {
   }
 
   Future<String> getIdeas() async {
-    _isLoadingExplore = true;
+    setState(() {
+      _isLoadingExplore = true;
+    });
     var _batt = await battery.batteryLevel;
     try {
       _response = await http.get(Uri.encodeFull(
@@ -57,11 +59,11 @@ class _ExplorePageState extends State<ExplorePageW> {
         });
       }
     } catch (SocketException) {
-      widget._scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.orange,
-        content: Text('Woah! Seems like a Network Error 😭'),
-        duration: Duration(seconds: 3),
-      ));
+      // widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+      //   backgroundColor: Colors.orange,
+      //   content: Text('Woah! Seems like a Network Error 🙁'),
+      //   duration: Duration(seconds: 3),
+      // ));
     }
   }
 
@@ -71,6 +73,60 @@ class _ExplorePageState extends State<ExplorePageW> {
     globals.editIdeaDesc = desc;
     globals.editIdeaPriority = priority;
     Navigator.pushNamed(context, '/editIdea').whenComplete(getIdeas);
+  }
+
+  void _updateShare(String value, String sno, int index) async {
+    widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: globals.primaryColor,
+      content: Row(
+        children: <Widget>[
+          SizedBox(
+            height: 20.0,
+            width: 20.0,
+            child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+          ),
+          SizedBox(
+            width: 10.0,
+          ),
+          Text('Updating sharing details 😃')
+        ],
+      ),
+    ));
+    value = (value == '0') ? '1' : '0';
+    try {
+      _response = await http.post(
+          Uri.encodeFull(
+              "http://rrjprojects.000webhostapp.com/api/updateShare.php"),
+          body: {"sno": sno, "share": value});
+      _response = json.decode(_response.body);
+      // print(_response);
+      if (_response[0]['status'] == '1') {
+        setState(() {
+          widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Yay! Sharing details updated 😃'),
+            duration: Duration(seconds: 3),
+          ));
+          _ideasLst[index]['share'] = value;
+        });
+      } else {
+        setState(() {
+          widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: Colors.orange,
+            content: Text('Woah! Could not update share details 🙁'),
+            duration: Duration(seconds: 3),
+          ));
+        });
+      }
+    } catch (SocketException) {
+      widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.orange,
+        content: Text('Woah! Seems like a Network Error 🙁'),
+        duration: Duration(seconds: 3),
+      ));
+    }
   }
 
   Widget _expansionTileBuilder(BuildContext context, int index) {
@@ -152,6 +208,29 @@ class _ExplorePageState extends State<ExplorePageW> {
                   ),
                 )
               ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    color: (_ideasLst[index]['share'].toString() == '1')
+                        ? Colors.green
+                        : Colors.blueGrey,
+                    child: FlatButton(
+                      colorBrightness: Brightness.dark,
+                      color: Colors.transparent,
+                      child: (_ideasLst[index]['share'].toString() == '1')
+                          ? Text("Shared to Public (Click to Privatize)")
+                          : Text("Kept Private (Click to Publish)"),
+                      onPressed: () {
+                        _updateShare(_ideasLst[index]['share'].toString(),
+                            _ideasLst[index]['sno'].toString(), index);
+                      },
+                    ),
+                  ),
+                )
+              ],
             )
           ],
         ),
@@ -200,7 +279,18 @@ class _ExplorePageState extends State<ExplorePageW> {
         margin: EdgeInsets.all(20.0),
         child: Center(
             child: Center(
-          child: Text(globals.welMessage, textAlign: TextAlign.center),
+          child: Text(
+            "😃 " +
+                globals.welMessage[0] +
+                " 😃" +
+                '\n' +
+                globals.welMessage[1] +
+                " 😉" +
+                '\n' +
+                globals.welMessage[2] +
+                " 👉",
+            textAlign: TextAlign.center,
+          ),
         )));
   }
 

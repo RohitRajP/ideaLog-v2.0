@@ -90,7 +90,7 @@ class _CreatePageWState extends State<CreatePageW> {
         child: TextFormField(
       controller: _ideaDescControl,
       maxLines: null,
-      maxLength: 1500,
+      maxLength: 2500,
       decoration: InputDecoration(
           labelText: "Idea Description",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),

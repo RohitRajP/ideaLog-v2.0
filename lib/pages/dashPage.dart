@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart' as globals;
 import '../widgets/explorePageW.dart';
 import '../widgets/createPageW.dart';
+import '../widgets/friendsPageW.dart';
 
 class DashPage extends StatefulWidget {
   @override
@@ -68,7 +69,7 @@ class _DashPageState extends State<DashPage> {
           context: context,
           builder: (context) => new AlertDialog(
                 title: new Text('Are you sure?'),
-                content: new Text('This action will exit IdeaLog 😭'),
+                content: new Text('This action will exit IdeaLog 🙁'),
                 actions: <Widget>[
                   new FlatButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -91,7 +92,7 @@ class _DashPageState extends State<DashPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return DefaultTabController(
-        length: 2,
+        length: 3,
         child: SafeArea(
             child: WillPopScope(
                 onWillPop: _onWillPop,
@@ -192,13 +193,18 @@ class _DashPageState extends State<DashPage> {
                           icon: Icon(FontAwesomeIcons.plus),
                           text: "Create",
                         ),
+                        Tab(
+                          icon: Icon(FontAwesomeIcons.userFriends),
+                          text: "Friends",
+                        ),
                       ],
                     ),
                   ),
                   body: TabBarView(
                     children: [
                       ExplorePageW(_scaffoldKey),
-                      CreatePageW(_scaffoldKey)
+                      CreatePageW(_scaffoldKey),
+                      FriendsPageW(_scaffoldKey)
                     ],
                   ),
                 ))));
