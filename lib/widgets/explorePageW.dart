@@ -35,9 +35,7 @@ class _ExplorePageState extends State<ExplorePageW> {
   }
 
   Future<String> getIdeas() async {
-    setState(() {
-      _isLoadingExplore = true;
-    });
+    _isLoadingExplore = true;
     var _batt = await battery.batteryLevel;
     try {
       _response = await http.get(Uri.encodeFull(
@@ -158,10 +156,41 @@ class _ExplorePageState extends State<ExplorePageW> {
       children: <Widget>[
         ExpansionTile(
           leading: Icon(FontAwesomeIcons.lightbulb),
-          title: Text(
-            _ideasLst[index]['ideaName'],
-            style: TextStyle(color: globals.ideaTextColor),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                _ideasLst[index]['ideaName'],
+                style: TextStyle(color: globals.ideaTextColor),
+              ),
+              Container(
+                child: (_ideasLst[index]['share'].toString() == '1')
+                    ? Text(
+                        "Public",
+                        style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 12.0,
+                            fontFamily: 'TimeBurner'),
+                      )
+                    : Text(
+                        "Private",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
+                            fontFamily: 'TimeBurner'),
+                      ),
+              )
+            ],
           ),
+          // Container(
+          //   child: (_ideasLst[index]['share'].toString() == '1')
+          //       ? Icon(FontAwesomeIcons.globeAsia, color: Colors.green)
+          //       : Icon(
+          //           FontAwesomeIcons.userSecret,
+          //           color: Colors.black,
+          //         ),
+          // )
+
           children: <Widget>[
             Container(
               margin: EdgeInsets.all(10.0),
