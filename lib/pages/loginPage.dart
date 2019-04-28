@@ -81,12 +81,11 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<String> _auth() async {
     //print(globals.accUserName);
-
     var _batt = await battery.batteryLevel;
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/authentication.php"),
+              "https://idealogrestapi.000webhostapp.com/api/authentication.php"),
           body: {
             "username": _username.text.trim(),
             "passkey": _password.text.trim(),

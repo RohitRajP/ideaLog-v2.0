@@ -33,7 +33,7 @@ class _FriendsPageState extends State<FriendsPageW> {
   Future<String> getFIdeas() async {
     try {
       _response = await http.get(Uri.encodeFull(
-          "http://rrjprojects.000webhostapp.com/api/shareIdeasGet.php?username=" +
+          "https://idealogrestapi.000webhostapp.com/api/shareIdeasGet.php?username=" +
               _friendName));
       _response = json.decode(_response.body);
       //print(_response);

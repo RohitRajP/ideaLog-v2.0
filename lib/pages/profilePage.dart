@@ -165,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/updateUserInfo.php"),
+              "https://idealogrestapi.000webhostapp.com/api/updateUserInfo.php"),
           body: {
             "username": _userNameController.text.trim(),
             "passkey": _passwordController.text.trim(),

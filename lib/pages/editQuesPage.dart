@@ -66,7 +66,7 @@ class _EditQuesPageState extends State<EditQuesPage> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/qUpdate.php"),
+              "https://idealogrestapi.000webhostapp.com/api/qUpdate.php"),
           body: {
             "sno": globals.editIdeaSno,
             "qName": _ideaName.trim(),
@@ -210,7 +210,8 @@ class _EditQuesPageState extends State<EditQuesPage> {
       _isUpdating = true;
     });
     _response = await http.post(
-        Uri.encodeFull("http://rrjprojects.000webhostapp.com/api/qDelete.php"),
+        Uri.encodeFull(
+            "https://idealogrestapi.000webhostapp.com/api/qDelete.php"),
         body: {
           "sno": globals.editIdeaSno,
         });

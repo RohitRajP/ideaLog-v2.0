@@ -66,7 +66,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/ideasUpdate.php"),
+              "https://idealogrestapi.000webhostapp.com/api/ideasUpdate.php"),
           body: {
             "sno": globals.editIdeaSno,
             "ideaName": _ideaName.trim(),
@@ -211,7 +211,7 @@ class _EditIdeaPageState extends State<EditIdeaPage> {
     });
     _response = await http.post(
         Uri.encodeFull(
-            "http://rrjprojects.000webhostapp.com/api/ideaDelete.php"),
+            "https://idealogrestapi.000webhostapp.com/api/ideaDelete.php"),
         body: {
           "sno": globals.editIdeaSno,
         });

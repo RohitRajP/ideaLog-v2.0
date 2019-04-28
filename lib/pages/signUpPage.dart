@@ -184,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/createUser.php"),
+              "https://idealogrestapi.000webhostapp.com/api/createUser.php"),
           body: {
             "username": _userName.trim(),
             "passkey": _password.trim(),

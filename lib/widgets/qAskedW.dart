@@ -39,7 +39,7 @@ class _QAskedWState extends State<QAskedW> {
     var _batt = await battery.batteryLevel;
     try {
       _response = await http.get(Uri.encodeFull(
-          "http://rrjprojects.000webhostapp.com/api/qGet.php?userId=" +
+          "https://idealogrestapi.000webhostapp.com/api/qGet.php?userId=" +
               globals.userId +
               "&battPercent=" +
               _batt.toString()));

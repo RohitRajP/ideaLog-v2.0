@@ -36,7 +36,7 @@ class _QAskWState extends State<QAskW> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/qCreate.php"),
+              "https://idealogrestapi.000webhostapp.com/api/qCreate.php"),
           body: {
             "userId": globals.userId.toString(),
             "qName": _qName.trim(),

@@ -82,7 +82,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/forgotPassword.php"),
+              "https://idealogrestapi.000webhostapp.com/api/forgotPassword.php"),
           body: {
             "userName": _userName.trim(),
           });

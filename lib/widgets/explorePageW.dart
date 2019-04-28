@@ -39,7 +39,7 @@ class _ExplorePageState extends State<ExplorePageW> {
     var _batt = await battery.batteryLevel;
     try {
       _response = await http.get(Uri.encodeFull(
-          "http://rrjprojects.000webhostapp.com/api/ideasGet.php?userId=" +
+          "https://idealogrestapi.000webhostapp.com/api/ideasGet.php?userId=" +
               globals.userId +
               "&battPercent=" +
               _batt.toString()));
@@ -96,7 +96,7 @@ class _ExplorePageState extends State<ExplorePageW> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/updateShare.php"),
+              "https://idealogrestapi.000webhostapp.com/api/updateShare.php"),
           body: {"sno": sno, "share": value});
       _response = json.decode(_response.body);
       // print(_response);

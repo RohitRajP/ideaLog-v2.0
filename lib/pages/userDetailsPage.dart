@@ -58,7 +58,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   Future<String> _getDetails() async {
     try {
       _response = await http.get(Uri.encodeFull(
-          "http://rrjprojects.000webhostapp.com/api/getbat.php"));
+          "https://idealogrestapi.000webhostapp.com/api/getbat.php"));
       _response = json.decode(_response.body);
       //print(_response);
       if (_response[0]['userId'] != -1) {

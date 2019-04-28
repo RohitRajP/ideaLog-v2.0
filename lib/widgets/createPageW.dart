@@ -33,7 +33,7 @@ class _CreatePageWState extends State<CreatePageW> {
     try {
       _response = await http.post(
           Uri.encodeFull(
-              "http://rrjprojects.000webhostapp.com/api/ideaCreate.php"),
+              "https://idealogrestapi.000webhostapp.com/api/ideaCreate.php"),
           body: {
             "userId": globals.userId.toString(),
             "ideaName": _ideaName.trim(),
