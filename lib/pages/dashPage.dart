@@ -68,6 +68,8 @@ class _DashPageState extends State<DashPage> {
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
                 title: new Text('Are you sure?'),
                 content: new Text('This action will exit IdeaLog 🙁'),
                 actions: <Widget>[
@@ -173,6 +175,18 @@ class _DashPageState extends State<DashPage> {
                                   },
                                 )
                               : null,
+                        ),
+                        ListTile(
+                          title: Text("About App"),
+                          leading: Icon(
+                            FontAwesomeIcons.info,
+                            color: globals.primaryColor,
+                          ),
+                          subtitle:
+                              Text("All about the app and the developers"),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/aboutPage');
+                          },
                         ),
                         ListTile(
                           title: Text(

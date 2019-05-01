@@ -12,6 +12,7 @@ import './pages/userDetailsPage.dart';
 import './pages/questionsPage.dart';
 import './pages/editQuesPage.dart';
 import './pages/schedulePage.dart';
+import './pages/aboutPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,7 +49,8 @@ class _MyAppState extends State<MyApp> {
         '/userDetails': (BuildContext context) => UserDetailsPage(),
         '/questionsPage': (BuildContext context) => QuestionsPage(),
         '/questionEdit': (BuildContext context) => EditQuesPage(),
-        '/schedulePage': (BuildContext context) => SchedulePage()
+        '/schedulePage': (BuildContext context) => SchedulePage(),
+        '/aboutPage': (BuildContext context) => AboutPage()
       },
       theme: ThemeData(primarySwatch: globals.primaryColor),
       home: SafeArea(
