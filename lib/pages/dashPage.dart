@@ -111,6 +111,18 @@ class _DashPageState extends State<DashPage> {
                           ),
                         ),
                         ListTile(
+                          title: Text("Daily Tasks"),
+                          leading: Icon(
+                            FontAwesomeIcons.tasks,
+                            color: globals.primaryColor,
+                          ),
+                          subtitle: Text("Prioritize your tasks and goals"),
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/schedulePage');
+                          },
+                        ),
+                        ListTile(
                           title: Text("Q&A Dashboard"),
                           leading: Icon(
                             FontAwesomeIcons.question,

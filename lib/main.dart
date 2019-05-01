@@ -11,6 +11,7 @@ import './pages/forgotPasswordPage.dart';
 import './pages/userDetailsPage.dart';
 import './pages/questionsPage.dart';
 import './pages/editQuesPage.dart';
+import './pages/schedulePage.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,6 +34,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "IdeaLog",
       routes: {
         '/explorePage': (BuildContext context) => DashPage(),
         '/editIdea': (BuildContext context) => EditIdeaPage(),
@@ -45,6 +48,7 @@ class _MyAppState extends State<MyApp> {
         '/userDetails': (BuildContext context) => UserDetailsPage(),
         '/questionsPage': (BuildContext context) => QuestionsPage(),
         '/questionEdit': (BuildContext context) => EditQuesPage(),
+        '/schedulePage': (BuildContext context) => SchedulePage()
       },
       theme: ThemeData(primarySwatch: globals.primaryColor),
       home: SafeArea(

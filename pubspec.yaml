@@ -35,6 +35,8 @@ dev_dependencies:
   flutter_launcher_icons:
   flutter_material_color_picker:
   liquid_pull_to_refresh:
+  flare_flutter:
+  flutter_slidable:
 
 
 # For information on the generic Dart part of this file, see the
@@ -56,6 +58,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/bstorm.png
+    - assets/flare/Teddy.flr
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

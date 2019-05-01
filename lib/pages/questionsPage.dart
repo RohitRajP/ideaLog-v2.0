@@ -112,6 +112,18 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             ),
                           ),
                           ListTile(
+                            title: Text("Daily Tasks"),
+                            leading: Icon(
+                              FontAwesomeIcons.tasks,
+                              color: globals.primaryColor,
+                            ),
+                            subtitle: Text("Prioritize your tasks and goals"),
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                  context, '/schedulePage');
+                            },
+                          ),
+                          ListTile(
                             title: Text("IDEA Dashboard"),
                             leading: Icon(
                               FontAwesomeIcons.lightbulb,

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:battery/battery.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 import '../global.dart' as globals;
 
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false, _continueLogin = false, _passwordNotVisible = true;
   var battery = Battery();
   var _response;
-  String temp;
+  String temp, _animation = 'success';
 
   @override
   void initState() {
@@ -139,6 +140,12 @@ class _LoginPageState extends State<LoginPage> {
       } else if (resetLevel == 1) {
         _password.clear();
       }
+      _animation = 'fail';
+    });
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        _animation = 'idle';
+      });
     });
   }
 
@@ -186,8 +193,19 @@ class _LoginPageState extends State<LoginPage> {
             colorBrightness: Brightness.light,
             onPressed: () {
               setState(() {
-                _isLoading = true;
-                _auth();
+                if (_username.text.length != 0 && _password.text.length != 0) {
+                  setState(() {
+                    _animation = 'test';
+                  });
+                  _isLoading = true;
+                  _auth();
+                } else {
+                  widget._scaffoldKey.currentState.showSnackBar(SnackBar(
+                    content: Text("Please check for empty fields"),
+                    backgroundColor: Colors.amber,
+                    duration: Duration(seconds: 3),
+                  ));
+                }
               });
             },
             child: (_isLoading == false)
@@ -274,17 +292,27 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginBox() {
     return Column(
       children: <Widget>[
-        Container(
-          child: Text(
-            "Log In",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.indigo,
-                fontWeight: FontWeight.bold),
+        // Container(
+        //   child: Text(
+        //     "Log In",
+        //     textAlign: TextAlign.center,
+        //     style: TextStyle(
+        //         fontSize: 30.0,
+        //         color: Colors.indigo,
+        //         fontWeight: FontWeight.bold),
+        //   ),
+        // ),
+
+        SizedBox(
+          height: 200,
+          child: FlareActor(
+            "assets/flare/Teddy.flr",
+            fit: BoxFit.contain,
+            alignment: Alignment.center,
+            animation: _animation,
           ),
         ),
-        SizedBox(height: 40.0),
+        // SizedBox(height: 40.0),
         _userNameTextField(),
         SizedBox(
           height: 20.0,

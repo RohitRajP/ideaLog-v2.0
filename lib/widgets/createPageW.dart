@@ -44,6 +44,7 @@ class _CreatePageWState extends State<CreatePageW> {
       if (_response[0]['status'] == '1') {
         setState(() {
           _isUpdating = false;
+          widget._scaffoldKey.currentState.removeCurrentSnackBar();
           widget._scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: Colors.green,
             content: Text('Idea Created! 😃'),
@@ -56,6 +57,7 @@ class _CreatePageWState extends State<CreatePageW> {
     } catch (FormatException) {
       setState(() {
         _isUpdating = false;
+        widget._scaffoldKey.currentState.removeCurrentSnackBar();
         widget._scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.red,
           content: Text('An error occurred during updating 😥'),
@@ -63,6 +65,7 @@ class _CreatePageWState extends State<CreatePageW> {
         ));
       });
     } catch (SocketException) {
+      widget._scaffoldKey.currentState.removeCurrentSnackBar();
       widget._scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.orange,
         content: Text('Woah! Seems like a Network Error 😥'),

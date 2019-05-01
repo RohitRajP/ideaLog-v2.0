@@ -1,4 +1,4 @@
-package com.example.idealog;
+package com.tmft.idealog;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
