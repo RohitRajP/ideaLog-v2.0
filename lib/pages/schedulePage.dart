@@ -164,7 +164,7 @@ class _SchedulePageState extends State<SchedulePage> {
       _permanentList.add(_task);
     }
     prefs.setStringList('permanentList', _permanentList);
-    print(prefs.getStringList('permanentList'));
+    //print(prefs.getStringList('permanentList'));
     // prefs.setStringList('templateList', _scheduleList);
     //print(prefs.getStringList('scheduleList'));
   }
@@ -223,33 +223,48 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _allTasksList(BuildContext context, int index) {
-    return ExpansionTile(
-      title: Text(_permanentList[index]),
+    return Column(
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ExpansionTile(
+          title: Text(_permanentList[index]),
           children: <Widget>[
-            FlatButton.icon(
-              textColor: Colors.green,
-              icon: Icon(Icons.add),
-              label: Text("Add"),
-              onPressed: () {
-                _scheduleList.add(_permanentList[index]);
-                Navigator.pop(context);
-                setState(() {});
-              },
-            ),
-            FlatButton.icon(
-              textColor: Colors.red,
-              icon: Icon(Icons.delete),
-              label: Text("Delete"),
-              onPressed: () {
-                _permanentList.removeAt(index);
-                _updatePermanentList();
-                Navigator.pop(context);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                FlatButton.icon(
+                  textColor: Colors.green,
+                  icon: Icon(Icons.add),
+                  label: Text("Add"),
+                  onPressed: () {
+                    _scheduleList.add(_permanentList[index]);
+                    Navigator.pop(context);
+                    setState(() {});
+                  },
+                ),
+                FlatButton.icon(
+                  textColor: Colors.red,
+                  icon: Icon(Icons.delete),
+                  label: Text("Delete"),
+                  onPressed: () {
+                    _permanentList.removeAt(index);
+                    _updatePermanentList();
+                    Navigator.pop(context);
+                  },
+                )
+              ],
             )
           ],
+        ),
+        Container(
+          margin: (index == _permanentList.length - 1)
+              ? EdgeInsets.only(top: 10.0, bottom: 30.0)
+              : null,
+          child: (index == _permanentList.length - 1)
+              ? Text(
+                  "Click to expand",
+                  style: TextStyle(color: Colors.grey),
+                )
+              : null,
         )
       ],
     );
@@ -393,58 +408,73 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _taskTile(BuildContext context, int index) {
-    return Slidable(
-        secondaryActions: <Widget>[
-          IconSlideAction(
-            caption: 'Edit',
-            foregroundColor: Colors.white,
-            color: Colors.purple,
-            icon: Icons.edit,
-            onTap: () {
-              _showTaskEdit(index);
-            },
-          ),
-          IconSlideAction(
-            caption: 'Completed',
-            color: Colors.green,
-            icon: Icons.check,
-            onTap: () {
-              _taskComplete(index);
-            },
-          ),
-          // IconSlideAction(
-          //   caption: 'Delete Task',
-          //   color: Colors.red,
-          //   icon: Icons.delete,
-          //   onTap: () {
-          //     _deleteTask(index);
-          //   },
-          // )
-        ],
-        actions: <Widget>[
-          IconSlideAction(
-            caption: 'Move Up',
-            color: Colors.blue,
-            icon: Icons.arrow_upward,
-            onTap: () {
-              _moveUp(index);
-            },
-          ),
-          new IconSlideAction(
-            caption: 'Move Down',
-            color: Colors.indigo,
-            icon: Icons.arrow_downward,
-            onTap: () {
-              _moveDown(index);
-            },
-          ),
-        ],
-        delegate: new SlidableDrawerDelegate(),
-        actionExtentRatio: 0.25,
-        child: ListTile(
-          title: Text(_scheduleList[index]),
-          leading: Icon(FontAwesomeIcons.check),
-        ));
+    return Column(
+      children: <Widget>[
+        Slidable(
+            secondaryActions: <Widget>[
+              IconSlideAction(
+                caption: 'Edit',
+                foregroundColor: Colors.white,
+                color: Colors.purple,
+                icon: Icons.edit,
+                onTap: () {
+                  _showTaskEdit(index);
+                },
+              ),
+              IconSlideAction(
+                caption: 'Completed',
+                color: Colors.green,
+                icon: Icons.check,
+                onTap: () {
+                  _taskComplete(index);
+                },
+              ),
+              // IconSlideAction(
+              //   caption: 'Delete Task',
+              //   color: Colors.red,
+              //   icon: Icons.delete,
+              //   onTap: () {
+              //     _deleteTask(index);
+              //   },
+              // )
+            ],
+            actions: <Widget>[
+              IconSlideAction(
+                caption: 'Move Up',
+                color: Colors.blue,
+                icon: Icons.arrow_upward,
+                onTap: () {
+                  _moveUp(index);
+                },
+              ),
+              new IconSlideAction(
+                caption: 'Move Down',
+                color: Colors.indigo,
+                icon: Icons.arrow_downward,
+                onTap: () {
+                  _moveDown(index);
+                },
+              ),
+            ],
+            delegate: new SlidableDrawerDelegate(),
+            actionExtentRatio: 0.25,
+            child: ListTile(
+              title: Text(_scheduleList[index]),
+              leading: Icon(FontAwesomeIcons.check),
+            )),
+        Container(
+          margin: (index == _scheduleList.length - 1)
+              ? EdgeInsets.only(top: 10.0, bottom: 30.0)
+              : null,
+          child: (index == _scheduleList.length - 1)
+              ? Text(
+                  "Swipe Left and right for more options",
+                  style: TextStyle(color: Colors.grey),
+                )
+              : null,
+        )
+      ],
+    );
   }
 
   @override

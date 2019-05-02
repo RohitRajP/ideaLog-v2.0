@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 import '../global.dart' as globals;
 import '../widgets/explorePageW.dart';
@@ -92,6 +93,10 @@ class _DashPageState extends State<DashPage> {
 
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+    //     statusBarColor: globals.primaryColor,
+    //     systemNavigationBarColor: Color(0xFFFAFAFA),
+    //     systemNavigationBarIconBrightness: Brightness.dark));
     // TODO: implement build
     return DefaultTabController(
         length: 3,

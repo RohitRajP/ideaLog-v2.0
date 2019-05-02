@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:battery/battery.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/services.dart';
 
 import '../global.dart' as globals;
 
@@ -367,6 +368,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    //     statusBarColor: Color(0xFFFAFAFA),
+    //     systemNavigationBarColor: Color(0xFFFAFAFA),
+    //     systemNavigationBarIconBrightness: Brightness.dark));
     // TODO: implement build
     return Container(
         constraints: BoxConstraints(
